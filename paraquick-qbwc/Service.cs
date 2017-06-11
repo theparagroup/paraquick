@@ -14,37 +14,32 @@ namespace com.paralib.paraquick.qbwc
     // [System.Web.Script.Services.ScriptService]
     public abstract class Service: WebService
     {
-        [WebMethod()]
+        /*
+            Note: you should mark all of the implemented methods with 
+                    [WebMethod()]
+
+        */
+
         public abstract string[] authenticate(string strUserName, string strPassword);
 
-        [WebMethod()]
         public abstract string clientVersion(string strVersion);
 
-        [WebMethod()]
         public abstract string serverVersion();
 
-        [WebMethod()]
         public abstract string closeConnection(string ticket);
 
-        [WebMethod()]
         public abstract string connectionError(string ticket, string hresult, string message);
 
-        [WebMethod()]
         public abstract string getLastError(string ticket);
 
-        [WebMethod()]
         public abstract string sendRequestXML(string ticket, string strHCPResponse, string strCompanyFileName, string qbXMLCountry, int qbXMLMajorVers, int qbXMLMinorVers);
 
-        [WebMethod()]
         public abstract int receiveResponseXML(string ticket, string response, string hresult, string message);
 
-        [WebMethod()]
         public abstract string getInteractiveURL(string wcTicket, string sessionID);
 
-        [WebMethod()]
         public abstract string interactiveDone(string wcTicket);
 
-        [WebMethod()]
         public abstract string interactiveRejected(string wcTicket, string reason);
 
     }
