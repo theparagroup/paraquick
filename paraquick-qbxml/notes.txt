@@ -3,6 +3,8 @@ qbXML tools and utilities.
 
 SDK 13.0.0.23
 
+--[steps to create project]
+
 with "developer command prompt":
 	xsd.exe qbxmlops130.xsd /c /n:com.paralib.paraquick.qbxml
 
@@ -17,4 +19,12 @@ change namespace
 
 remove assembly version attribute
 
+--[serialization notes]
+
+enums:
+	customerAdd1.CustomerAdd.SalesTaxCountry = SalesTaxCountry.Canada;
+	customerAdd1.CustomerAdd.SalesTaxCountrySpecified = true;
+
+
 TODO: reflect through xml classes and generate partials with the interface
+

@@ -44,6 +44,8 @@ namespace qb_test
             customerAdd1.CustomerAdd.FirstName = "John";
             customerAdd1.CustomerAdd.Name = "John Smith";
             customerAdd1.CustomerAdd.LastName = "Smith";
+            customerAdd1.CustomerAdd.SalesTaxCountrySpecified = true;
+            customerAdd1.CustomerAdd.SalesTaxCountry = SalesTaxCountry.Canada;
             rm.Add("1",customerAdd1);
 
             CustomerAddRqType customerAdd2 = new CustomerAddRqType();
