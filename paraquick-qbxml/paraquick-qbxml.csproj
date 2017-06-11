@@ -40,7 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Message.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RequestMessage.cs" />
+    <Compile Include="Requests.cs" />
     <Compile Include="Schemas\qbxmlops130.cs">
       <DependentUpon>qbxmlops130.xsd</DependentUpon>
     </Compile>
