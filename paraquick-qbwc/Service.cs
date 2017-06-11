@@ -10,6 +10,8 @@ namespace com.paralib.paraquick.qbwc
     [WebService(Namespace = "http://developer.intuit.com/")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [System.ComponentModel.ToolboxItem(false)]
+    // To allow this Web Service to be called from script, using ASP.NET AJAX, uncomment the following line.
+    // [System.Web.Script.Services.ScriptService]
     public abstract class Service: WebService
     {
         [WebMethod()]
