@@ -16,3 +16,5 @@ add to project (change name)
 change namespace
 
 remove assembly version attribute
+
+TODO: reflect through xml classes and generate partials with the interface

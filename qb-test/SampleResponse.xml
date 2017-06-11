@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" ?>
+<QBXML>
+  <QBXMLMsgsRs>
+    <CustomerAddRs statusCode="3100" statusSeverity="Error" statusMessage="The name &quot;John Smith&quot; of the list element is already in use." />
+    <CustomerAddRs statusCode="3231" statusSeverity="Error" statusMessage="The request has not been processed." />
+  </QBXMLMsgsRs>
+</QBXML>

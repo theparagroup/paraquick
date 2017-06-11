@@ -12,12 +12,13 @@ namespace com.paralib.paraquick.qbxml
 {
     public abstract class Message
     {
-        protected abstract QBXML OnRoot();
+        protected abstract QBXML OnSerialize();
+        protected abstract void OnDeserialize(QBXML qbxml);
 
-        public string ToXml()
+        public string Serialize()
         {
             string xml;
-            var qbxml = OnRoot();
+            var qbxml = OnSerialize();
 
             XmlWriterSettings xs = new XmlWriterSettings
             {
@@ -59,6 +60,28 @@ namespace com.paralib.paraquick.qbxml
 
                 return xml;
             }
+        }
+
+        public QBXML Deserialize(string xml)
+        {
+            var ser = new QBXMLSerializer();
+
+            using (var s = new MemoryStream(Encoding.UTF8.GetBytes(xml ?? "")))
+            {
+                return Deserialize(s);
+            }
+
+        }
+
+
+        public QBXML Deserialize(Stream stream)
+        {
+            var ser = new QBXMLSerializer();
+            QBXML qbxml = (QBXML)ser.Deserialize(stream);
+
+            OnDeserialize(qbxml);
+
+            return qbxml;
         }
 
     }

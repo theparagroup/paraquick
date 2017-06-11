@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace com.paralib.paraquick.qbxml
 {
-    public class RqType
+    public interface IRqType
     {
+        string requestID { get; set; }
     }
 
-    public partial class CustomerAddRqType2:RqType
+    public partial class CustomerAddRqType:IRqType
     {
 
     }
