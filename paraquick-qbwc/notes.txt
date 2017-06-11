@@ -1,0 +1,23 @@
+﻿WebConnector Tools and Utilities
+
+SDK 13.0.0.23
+WC 2.2.0.71
+
+--[to generate]
+documentation has broken links to wsdl
+
+i patched it up, tested with debugger, and re-generated
+
+Wsdl.exe /server /language:cs webconnector.wsdl
+
+--[pitfalls]
+
+must put this on service or WC errors
+
+[WebService(Namespace = "http://developer.intuit.com/")]
+
+--[to download *.qwc files]
+
+<staticContent>
+	<mimeMap fileExtension=".qwc" mimeType="application/octet-stream" />
+</staticContent>

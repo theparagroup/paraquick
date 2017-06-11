@@ -1,0 +1,15 @@
+﻿<?xml version="1.0"?>
+<QBWCXML>
+	<AppName>Application Name</AppName>
+	<AppID></AppID>
+	<AppURL>http://localhost/service.asmx</AppURL>
+	<AppDescription>Application Description</AppDescription>
+	<AppSupport>http://localhost</AppSupport>
+	<UserName>user</UserName>
+	<OwnerID>{E9983162-C744-437F-99CF-DBC98DAC16F2}</OwnerID>
+	<FileID>{D58A22E5-AEF5-4BE5-BF8F-78E7493030E0}</FileID>
+	<QBType>QBFS</QBType>
+	<Scheduler>
+		<RunEveryNMinutes>5</RunEveryNMinutes>
+	</Scheduler>
+</QBWCXML>

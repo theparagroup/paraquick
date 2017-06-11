@@ -1,0 +1,18 @@
+﻿
+qbXML tools and utilities.
+
+SDK 13.0.0.23
+
+with "developer command prompt":
+	xsd.exe qbxmlops130.xsd /c /n:com.paralib.paraquick.qbxml
+
+
+build 
+
+sgen paraquick-qbxml.dll /keep
+
+add to project (change name)
+
+change namespace
+
+remove assembly version attribute
