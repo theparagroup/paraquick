@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
+using com.paralib.paraquick.qbxml.Serializers;
 
 namespace com.paralib.paraquick.qbxml
 {
@@ -11,9 +13,12 @@ namespace com.paralib.paraquick.qbxml
         string requestID { get; set; }
     }
 
-    public partial class CustomerAddRqType:IRqType
+    public partial class CustomerAddRqType : SerializableType, IRqType
     {
-
+        protected override XmlSerializer GetSerializer()
+        {
+            return new CustomerAddRqTypeSerializer();
+        }
     }
 
 }

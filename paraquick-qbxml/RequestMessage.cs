@@ -32,6 +32,14 @@ namespace com.paralib.paraquick.qbxml
             _ids.Clear();
         }
 
+        public int Count
+        {
+            get
+            {
+                return _requests.Count;
+            }
+        }
+
         public IRqType this[string id]
         {
             get

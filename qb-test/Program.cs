@@ -17,8 +17,12 @@ namespace qb_test
         static void Main(string[] args)
         {
 
-            Serialize();
-            Deserialize();
+            var rm = new RequestMessage(QBXMLMsgsRqOnError.stopOnError);
+
+            Console.WriteLine(rm.Serialize());
+
+            //Serialize();
+            //Deserialize();
         }
 
         static void Deserialize()

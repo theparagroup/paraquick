@@ -49,11 +49,16 @@
     <Compile Include="Schemas\qbxmlops130.cs">
       <DependentUpon>qbxmlops130.xsd</DependentUpon>
     </Compile>
+    <Compile Include="SerializableType.cs" />
     <Compile Include="Serializers.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Examples\CustomerAddRs.xml" />
+    <Content Include="Examples\CustomerAddRq.xml" />
     <Content Include="notes.txt" />
-    <EmbeddedResource Include="SampleResponse.xml" />
+    <EmbeddedResource Include="SampleResponse.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="Schemas\qbxml130.xsd">

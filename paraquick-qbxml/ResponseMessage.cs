@@ -25,6 +25,14 @@ namespace com.paralib.paraquick.qbxml
             _ids.Clear();
         }
 
+        public int Count
+        {
+            get
+            {
+                return _responses.Count;
+            }
+        }
+
         public IRsType this[string id]
         {
             get
@@ -53,25 +61,28 @@ namespace com.paralib.paraquick.qbxml
         {
             Clear();
 
-            QBXMLMsgsRs rsMsg = (QBXMLMsgsRs) qbxml.Items[0];
+            QBXMLMsgsRs rsMsg = (QBXMLMsgsRs)qbxml.Items[0];
 
-            foreach (var obj in rsMsg.Items)
+            if (rsMsg.Items != null)
             {
-                if (obj is IRsType)
+                foreach (var obj in rsMsg.Items)
                 {
-                    var rs = (IRsType)obj;
-
-                    if (rs.requestID==null)
+                    if (obj is IRsType)
                     {
-                        rs.requestID = Guid.NewGuid().ToString();
-                    }
+                        var rs = (IRsType)obj;
 
-                    _responses.Add(rs);
-                    _ids.Add(rs.requestID, rs);
-                }
-                else
-                {
-                    throw new NotImplementedException();
+                        if (rs.requestID == null)
+                        {
+                            rs.requestID = Guid.NewGuid().ToString();
+                        }
+
+                        _responses.Add(rs);
+                        _ids.Add(rs.requestID, rs);
+                    }
+                    else
+                    {
+                        throw new NotImplementedException();
+                    }
                 }
             }
 
