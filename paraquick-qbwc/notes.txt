@@ -21,3 +21,9 @@ must put this on service or WC errors
 <staticContent>
 	<mimeMap fileExtension=".qwc" mimeType="application/octet-stream" />
 </staticContent>
+
+
+
+
+					
+

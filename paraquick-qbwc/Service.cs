@@ -7,18 +7,23 @@ using System.Web.Services;
 
 namespace com.paralib.paraquick.qbwc
 {
+    /* 
+        The following is required for the web connector
+
+            [WebService(Namespace = "http://developer.intuit.com/")]
+
+    */
     [WebService(Namespace = "http://developer.intuit.com/")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [System.ComponentModel.ToolboxItem(false)]
-    // To allow this Web Service to be called from script, using ASP.NET AJAX, uncomment the following line.
-    // [System.Web.Script.Services.ScriptService]
     public abstract class Service: WebService
     {
         /*
             Note: you should mark all of the implemented methods with 
-                    [WebMethod()]
 
+                [WebMethod()]
         */
+
 
         public abstract string[] authenticate(string strUserName, string strPassword);
 
