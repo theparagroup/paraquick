@@ -34,4 +34,25 @@ namespace com.paralib.paraquick.qbxml
         }
     }
 
+    public partial class EstimateAddRqType : SerializableType, IRqType
+    {
+        public string operation => "EstimateAdd";
+
+        protected override XmlSerializer GetSerializer()
+        {
+            return new EstimateAddRqTypeSerializer();
+        }
+    }
+
+    public partial class EstimateModRqType : SerializableType, IRqType
+    {
+        public string operation => "EstimateMod";
+
+        protected override XmlSerializer GetSerializer()
+        {
+            return new EstimateModRqTypeSerializer();
+        }
+    }
+
+
 }
