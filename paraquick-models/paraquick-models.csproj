@@ -47,9 +47,37 @@
   <ItemGroup>
     <Compile Include="Ef\DbContext.cs" />
     <Compile Include="Ef\EfParaquickCompany.cs" />
+    <Compile Include="Ef\EfParaquickCustomer.cs" />
+    <Compile Include="Ef\EfParaquickEstimate.cs" />
+    <Compile Include="Ef\EfParaquickMessageType.cs" />
+    <Compile Include="Ef\EfParaquickRequest.cs" />
+    <Compile Include="Ef\EfParaquickTicket.cs" />
+    <Compile Include="Ef\EfParaquickTicketError.cs" />
+    <Compile Include="Ef\EfParaquickTicketStatus.cs" />
     <Compile Include="Logic\ParaquickCompany.cs" />
+    <Compile Include="Logic\ParaquickCustomer.cs" />
+    <Compile Include="Logic\ParaquickEstimate.cs" />
+    <Compile Include="Logic\ParaquickMessageType.cs" />
+    <Compile Include="Logic\ParaquickRequest.cs" />
+    <Compile Include="Logic\ParaquickTicket.cs" />
+    <Compile Include="Logic\ParaquickTicketError.cs" />
+    <Compile Include="Logic\ParaquickTicketStatus.cs" />
     <Compile Include="Metadata\ParaquickCompany.cs" />
+    <Compile Include="Metadata\ParaquickCustomer.cs" />
+    <Compile Include="Metadata\ParaquickEstimate.cs" />
+    <Compile Include="Metadata\ParaquickMessageType.cs" />
+    <Compile Include="Metadata\ParaquickRequest.cs" />
+    <Compile Include="Metadata\ParaquickTicket.cs" />
+    <Compile Include="Metadata\ParaquickTicketError.cs" />
+    <Compile Include="Metadata\ParaquickTicketStatus.cs" />
     <Compile Include="ParaquickCompany.cs" />
+    <Compile Include="ParaquickCustomer.cs" />
+    <Compile Include="ParaquickEstimate.cs" />
+    <Compile Include="ParaquickMessageType.cs" />
+    <Compile Include="ParaquickRequest.cs" />
+    <Compile Include="ParaquickTicket.cs" />
+    <Compile Include="ParaquickTicketError.cs" />
+    <Compile Include="ParaquickTicketStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
