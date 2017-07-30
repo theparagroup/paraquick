@@ -23,6 +23,56 @@ must put this on service or WC errors
 </staticContent>
 
 
+--[sequences]
+	Main Sequence:
+
+		serverVersion
+		clientVersion
+		authenticate
+			sendRequestXML -> <xml>
+					receiveResponseXML -> (-1)
+						getLastError
+						closeConnection
+				OR
+					receiveResponseXML -> (less than 100)
+						sendRequestXML
+							...
+				OR
+					receiveResponseXML -> (100)
+						closeConnection
+
+	----------------------------
+
+	QB Connection Error Sequence:
+
+		serverVersion
+		clientVersion
+		authenticate
+				connectionError -> "done"
+					closeConnection?    
+			OR
+				connectionError -> "<path to company file>"
+					connectionError
+						... (called till max retries exceeded)
+
+	----------------------------
+
+	Interactive Mode Sequence:
+
+		serverVersion
+		clientVersion
+		authenticate
+			sendRequestXML -> ""
+				getLastError
+					getInteractiveURL
+							interactiveRejected (user cancels)
+						OR
+							interactiveDone (polled)
+					closeConnection?
+
+	----------------------------
+
+
 
 
 					

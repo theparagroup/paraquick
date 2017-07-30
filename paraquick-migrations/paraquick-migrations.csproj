@@ -4,15 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{080DEC39-83C4-4667-9F52-6B2F1D4D3FC6}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{38A74B68-4FED-4052-9CC5-813CF3D52CEF}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>com.paralib.paraquick.qbwc</RootNamespace>
-    <AssemblyName>paraquick-qbwc</AssemblyName>
+    <RootNamespace>paraquick_migrations</RootNamespace>
+    <AssemblyName>paraquick-migrations</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +24,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -32,7 +35,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,17 +43,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service.cs">
-      <SubType>Component</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="notes.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="application.qwc" />
-    <None Include="webconnector.wsdl" />
+    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\paralib-net\paralib-common\paralib-common.csproj">
@@ -62,13 +58,9 @@
       <Project>{be7e9259-7abd-440f-b58a-2a2d6a5f525e}</Project>
       <Name>paralib-dal</Name>
     </ProjectReference>
-    <ProjectReference Include="..\paraquick-models\paraquick-models.csproj">
-      <Project>{840aeb99-f07a-4035-b557-b50e2a9e45d8}</Project>
-      <Name>paraquick-models</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\paraquick-qbxml\paraquick-qbxml.csproj">
-      <Project>{3cab3f19-2ad2-46c8-a8ab-e037fac0bc6a}</Project>
-      <Name>paraquick-qbxml</Name>
+    <ProjectReference Include="..\..\paralib-net\paralib-migrations\paralib-migrations.csproj">
+      <Project>{9fb29601-877a-4b69-bbc9-a40673ec1bec}</Project>
+      <Name>paralib-migrations</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

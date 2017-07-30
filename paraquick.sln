@@ -1,13 +1,23 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "paraquick-qbwc", "paraquick-qbwc\paraquick-qbwc.csproj", "{080DEC39-83C4-4667-9F52-6B2F1D4D3FC6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "paraquick-qbxml", "paraquick-qbxml\paraquick-qbxml.csproj", "{3CAB3F19-2AD2-46C8-A8AB-E037FAC0BC6A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "qb-test", "qb-test\qb-test.csproj", "{C3775ECF-C724-4971-A00F-F74842B0288A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "paralib-common", "..\paralib-net\paralib-common\paralib-common.csproj", "{101E2741-5A3D-460B-BDF4-F5E5BD27CF1C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "paralib-dal", "..\paralib-net\paralib-dal\paralib-dal.csproj", "{BE7E9259-7ABD-440F-B58A-2A2D6A5F525E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "paralib-migrations", "..\paralib-net\paralib-migrations\paralib-migrations.csproj", "{9FB29601-877A-4B69-BBC9-A40673EC1BEC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "paraquick-migrations", "paraquick-migrations\paraquick-migrations.csproj", "{38A74B68-4FED-4052-9CC5-813CF3D52CEF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "paraquick-models", "paraquick-models\paraquick-models.csproj", "{840AEB99-F07A-4035-B557-B50E2A9E45D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +37,26 @@ Global
 		{C3775ECF-C724-4971-A00F-F74842B0288A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3775ECF-C724-4971-A00F-F74842B0288A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C3775ECF-C724-4971-A00F-F74842B0288A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{101E2741-5A3D-460B-BDF4-F5E5BD27CF1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{101E2741-5A3D-460B-BDF4-F5E5BD27CF1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{101E2741-5A3D-460B-BDF4-F5E5BD27CF1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{101E2741-5A3D-460B-BDF4-F5E5BD27CF1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE7E9259-7ABD-440F-B58A-2A2D6A5F525E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE7E9259-7ABD-440F-B58A-2A2D6A5F525E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE7E9259-7ABD-440F-B58A-2A2D6A5F525E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE7E9259-7ABD-440F-B58A-2A2D6A5F525E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FB29601-877A-4B69-BBC9-A40673EC1BEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FB29601-877A-4B69-BBC9-A40673EC1BEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FB29601-877A-4B69-BBC9-A40673EC1BEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FB29601-877A-4B69-BBC9-A40673EC1BEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38A74B68-4FED-4052-9CC5-813CF3D52CEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38A74B68-4FED-4052-9CC5-813CF3D52CEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38A74B68-4FED-4052-9CC5-813CF3D52CEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38A74B68-4FED-4052-9CC5-813CF3D52CEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{840AEB99-F07A-4035-B557-B50E2A9E45D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{840AEB99-F07A-4035-B557-B50E2A9E45D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{840AEB99-F07A-4035-B557-B50E2A9E45D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{840AEB99-F07A-4035-B557-B50E2A9E45D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
