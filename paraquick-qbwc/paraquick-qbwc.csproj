@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\paralib-net-dependencies\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web.Services" />
@@ -42,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HResult.cs" />
+    <Compile Include="RequestMessageSet.cs" />
     <Compile Include="TicketCodes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QbWcServiceBase.cs">
@@ -51,6 +56,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Ticket.cs" />
+    <Compile Include="TicketStatuses.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="notes.txt" />

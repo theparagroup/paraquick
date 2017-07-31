@@ -10,20 +10,11 @@ namespace com.paralib.paraquick.qbxml
 {
     //query, mod, add
 
-    public interface IRsType
-    {
-        string requestID { get; set; }
-        string operation { get; }
-        string statusCode { get; set; } //0 for success; nonzero for information, warnings, and errors
-        string statusSeverity { get; set; } //Info, Warning, Error
-        string statusMessage { get; set; }
-    }
+   
 
    
     public partial class CustomerAddRsType : SerializableType, IRsType
     {
-        public string operation => "CustomerAdd";
-
         protected override XmlSerializer GetSerializer()
         {
             return new CustomerAddRsTypeSerializer();
@@ -32,8 +23,6 @@ namespace com.paralib.paraquick.qbxml
 
     public partial class CustomerModRsType : SerializableType, IRsType
     {
-        public string operation => "CustomerMod";
-
         protected override XmlSerializer GetSerializer()
         {
             return new CustomerModRsTypeSerializer();
@@ -42,8 +31,6 @@ namespace com.paralib.paraquick.qbxml
 
     public partial class EstimateAddRsType : SerializableType, IRsType
     {
-        public string operation => "EstimateAdd";
-
         protected override XmlSerializer GetSerializer()
         {
             return new EstimateAddRsTypeSerializer();
@@ -52,8 +39,6 @@ namespace com.paralib.paraquick.qbxml
 
     public partial class EstimateModRsType : SerializableType, IRsType
     {
-        public string operation => "EstimateMod";
-
         protected override XmlSerializer GetSerializer()
         {
             return new EstimateModRsTypeSerializer();

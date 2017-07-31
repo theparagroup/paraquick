@@ -8,16 +8,10 @@ using com.paralib.paraquick.qbxml.Serializers;
 
 namespace com.paralib.paraquick.qbxml
 {
-    public interface IRqType
-    {
-        string requestID { get; set; }
-        string operation { get; }
-    }
+   
 
     public partial class CustomerAddRqType : SerializableType, IRqType
     {
-        public string operation => "CustomerAdd";
-
         protected override XmlSerializer GetSerializer()
         {
             return new CustomerAddRqTypeSerializer();
@@ -26,8 +20,6 @@ namespace com.paralib.paraquick.qbxml
 
     public partial class CustomerModRqType : SerializableType, IRqType
     {
-        public string operation => "CustomerMod";
-
         protected override XmlSerializer GetSerializer()
         {
             return new CustomerModRqTypeSerializer();
@@ -36,8 +28,6 @@ namespace com.paralib.paraquick.qbxml
 
     public partial class EstimateAddRqType : SerializableType, IRqType
     {
-        public string operation => "EstimateAdd";
-
         protected override XmlSerializer GetSerializer()
         {
             return new EstimateAddRqTypeSerializer();
@@ -46,8 +36,6 @@ namespace com.paralib.paraquick.qbxml
 
     public partial class EstimateModRqType : SerializableType, IRqType
     {
-        public string operation => "EstimateMod";
-
         protected override XmlSerializer GetSerializer()
         {
             return new EstimateModRqTypeSerializer();

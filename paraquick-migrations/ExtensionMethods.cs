@@ -71,8 +71,8 @@ namespace com.paralib.paraquick.Migrations
             Create.Table("paraquick_requests")
                .WithColumn("id").AsParaType(ParaTypes.Key).PrimaryKey().Identity()
                .WithColumn("ticket_id").AsParaType(ParaTypes.Key).ForeignKey("paraquick_tickets", "id")
-               .WithColumn("message_id").AsParaType(ParaTypes.Int32)
-               .WithColumn("ordinal").AsParaType(ParaTypes.Int32)
+               .WithColumn("message_sequence").AsParaType(ParaTypes.Int32)
+               .WithColumn("request_sequence").AsParaType(ParaTypes.Int32)
                .WithColumn("message_type_id").AsParaType(ParaTypes.Key).ForeignKey("paraquick_message_types", "id")
                .WithColumn("request_id").AsParaType(ParaTypes.Name)
                .WithColumn("request").AsParaType(ParaTypes.LongText).Nullable()
@@ -85,8 +85,8 @@ namespace com.paralib.paraquick.Migrations
 
             Create.Index("uidx_paraquick_requests").OnTable("paraquick_requests")
                 .OnColumn("ticket_id").Unique()
-                .OnColumn("message_id").Unique()
-                .OnColumn("ordinal").Unique();
+                .OnColumn("message_sequence").Unique()
+                .OnColumn("request_sequence").Unique();
 
 
         }

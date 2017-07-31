@@ -6,8 +6,8 @@ namespace com.paralib.paraquick.Models
 	{
 		public int Id { get; set;}
 		public int TicketId { get; set;}
-		public int MessageId { get; set;}
-		public int Ordinal { get; set;}
+		public int MessageSequence { get; set;}
+		public int RequestSequence { get; set;}
 		public int MessageTypeId { get; set;}
 		public string RequestId { get; set;}
 		public string Request { get; set;}

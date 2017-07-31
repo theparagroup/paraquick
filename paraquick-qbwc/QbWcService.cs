@@ -40,13 +40,18 @@ namespace com.paralib.paraquick.qbwc
         protected override int OnResponseMessage(string ticketValue, string responseXml, HResult hresult)
         {
             //process responses & update entities based on response type
+            OnResponse();
+
             //update status and report "%"
 
             //do we stop on errors here or keep going?
             //do we send a -1 when we're really done?
 
+
             throw new NotImplementedException();
         }
+
+        protected abstract void OnResponse();
 
         protected override string OnGetLastError(string ticketValue)
         {

@@ -29,15 +29,15 @@ namespace com.paralib.paraquick.Models.Metadata
 		[ParaType(ParaTypes.Key)]
 		public object TicketId;
 
-		[Display(Name="Message Id")]
-		[Required(ErrorMessage="Message Id is required")]
+		[Display(Name="Message Sequence")]
+		[Required(ErrorMessage="Message Sequence is required")]
 		[ParaType(ParaTypes.Int32)]
-		public object MessageId;
+		public object MessageSequence;
 
-		[Display(Name="Ordinal")]
-		[Required(ErrorMessage="Ordinal is required")]
+		[Display(Name="Request Sequence")]
+		[Required(ErrorMessage="Request Sequence is required")]
 		[ParaType(ParaTypes.Int32)]
-		public object Ordinal;
+		public object RequestSequence;
 
 		[Display(Name="Message Type Id")]
 		[Required(ErrorMessage="Message Type Id is required")]
