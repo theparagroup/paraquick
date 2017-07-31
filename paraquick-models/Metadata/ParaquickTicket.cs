@@ -42,9 +42,9 @@ namespace com.paralib.paraquick.Models.Metadata
 		[ParaType(ParaTypes.DateTime)]
 		public object EndDate;
 
-		[Display(Name="Status")]
-		[Required(ErrorMessage="Status is required")]
+		[Display(Name="Status Id")]
+		[Required(ErrorMessage="Status Id is required")]
 		[ParaType(ParaTypes.Key)]
-		public object Status;
+		public object StatusId;
 	}
 }

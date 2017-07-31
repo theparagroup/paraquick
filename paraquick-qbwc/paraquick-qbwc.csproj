@@ -41,10 +41,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HResult.cs" />
+    <Compile Include="TicketCodes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service.cs">
+    <Compile Include="QbWcServiceBase.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="QbWcService.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Ticket.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="notes.txt" />

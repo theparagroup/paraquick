@@ -48,7 +48,7 @@ namespace com.paralib.paraquick.Migrations
                 .WithColumn("value").AsGuid()
                 .WithColumn("start_date").AsParaType(ParaTypes.DateTime)
                 .WithColumn("end_date").AsParaType(ParaTypes.DateTime).Nullable()
-                .WithColumn("status").AsParaType(ParaTypes.Key).ForeignKey("paraquick_ticket_statuses", "id");
+                .WithColumn("status_id").AsParaType(ParaTypes.Key).ForeignKey("paraquick_ticket_statuses", "id");
 
             Create.Table("paraquick_ticket_errors")
                 .WithColumn("id").AsParaType(ParaTypes.Key).PrimaryKey().Identity()

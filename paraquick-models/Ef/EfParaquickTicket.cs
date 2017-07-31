@@ -9,7 +9,7 @@ namespace com.paralib.paraquick.Models.Ef
 	{
 		[ForeignKey("CompanyId")]
 		public virtual EfParaquickCompany Company { get; set;}
-		[ForeignKey("Status")]
+		[ForeignKey("StatusId")]
 		public virtual EfParaquickTicketStatus Status { get; set;}
 		[InverseProperty("Ticket")]
 		public virtual List<EfParaquickRequest> ParaquickRequests { get; set;}

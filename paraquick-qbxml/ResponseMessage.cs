@@ -65,6 +65,7 @@ namespace com.paralib.paraquick.qbxml
 
             if (rsMsg.Items != null)
             {
+                //order doesn't "matter" here, but we preserve it
                 foreach (var obj in rsMsg.Items)
                 {
                     if (obj is IRsType)
