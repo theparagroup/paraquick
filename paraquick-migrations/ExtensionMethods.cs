@@ -56,28 +56,16 @@ namespace com.paralib.paraquick.Migrations
                 .WithColumn("date").AsParaType(ParaTypes.DateTime)
                 .WithColumn("message").AsParaType(ParaTypes.LongText).Nullable();
 
-            Create.Table("paraquick_message_types")
-                .WithColumn("id").AsParaType(ParaTypes.Key).PrimaryKey()
-                .WithColumn("name").AsParaType(ParaTypes.Name);
-
-            migration.Insert.IntoTable("paraquick_message_types").Row(new { id = 1, name = "CustomerAdd" });
-            migration.Insert.IntoTable("paraquick_message_types").Row(new { id = 2, name = "CustomerMod" });
-            migration.Insert.IntoTable("paraquick_message_types").Row(new { id = 3, name = "CustomerQuery" });
-            migration.Insert.IntoTable("paraquick_message_types").Row(new { id = 4, name = "EstimateAdd" });
-            migration.Insert.IntoTable("paraquick_message_types").Row(new { id = 5, name = "EstimateMod" });
-            migration.Insert.IntoTable("paraquick_message_types").Row(new { id = 6, name = "EstimateQuery" });
-
-
             Create.Table("paraquick_requests")
                .WithColumn("id").AsParaType(ParaTypes.Key).PrimaryKey().Identity()
                .WithColumn("ticket_id").AsParaType(ParaTypes.Key).ForeignKey("paraquick_tickets", "id")
                .WithColumn("message_sequence").AsParaType(ParaTypes.Int32)
                .WithColumn("request_sequence").AsParaType(ParaTypes.Int32)
-               .WithColumn("message_type_id").AsParaType(ParaTypes.Key).ForeignKey("paraquick_message_types", "id")
+               .WithColumn("message_type").AsParaType(ParaTypes.Text)
                .WithColumn("request_id").AsParaType(ParaTypes.Name)
-               .WithColumn("request").AsParaType(ParaTypes.LongText).Nullable()
-               .WithColumn("request_date").AsParaType(ParaTypes.DateTime).Nullable()
-               .WithColumn("response").AsParaType(ParaTypes.LongText).Nullable()
+               .WithColumn("request_xml").AsParaType(ParaTypes.LongText)
+               .WithColumn("request_date").AsParaType(ParaTypes.DateTime)
+               .WithColumn("response_xml").AsParaType(ParaTypes.LongText).Nullable()
                .WithColumn("response_date").AsParaType(ParaTypes.DateTime).Nullable()
                .WithColumn("status_code").AsParaType(ParaTypes.Int32).Nullable()
                .WithColumn("status_severity").AsParaType(ParaTypes.Text).Nullable()
@@ -94,7 +82,6 @@ namespace com.paralib.paraquick.Migrations
         public static void ParaquickTables(this FluentMigrator.Builders.Delete.IDeleteExpressionRoot Delete)
         {
             Delete.Table("paraquick_requests");
-            Delete.Table("paraquick_message_types");
             Delete.Table("paraquick_ticket_errors");
             Delete.Table("paraquick_tickets");
             Delete.Table("paraquick_ticket_statuses");

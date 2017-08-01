@@ -94,24 +94,24 @@ namespace com.paralib.paraquick.qbwc
             */
 
 
-            TicketCodes code;
+            AuthCodes authCode;
             string companyFilePath;
-            Ticket ticket = OnCreateTicket(strUserName, strPassword, out code, out companyFilePath);
+            Ticket ticket = OnCreateTicket(strUserName, strPassword, out authCode, out companyFilePath);
 
             string[] response = { ticket.Value.ToString(), null };
 
-            switch (code)
+            switch (authCode)
             {
-                case TicketCodes.VALID:
+                case AuthCodes.VALID:
                     response[1] = companyFilePath;
                     break;
-                case TicketCodes.NONE:
+                case AuthCodes.NONE:
                     response[1] = "NONE";
                     break;
-                case TicketCodes.NVU:
+                case AuthCodes.NVU:
                     response[1] = "NVU";
                     break;
-                case TicketCodes.BUSY:
+                case AuthCodes.BUSY:
                     response[1] = "BUSY";
                     break;
             }
@@ -121,7 +121,7 @@ namespace com.paralib.paraquick.qbwc
 
         }
 
-        protected abstract Ticket OnCreateTicket(string userName, string password, out TicketCodes code, out string companyFilePath);
+        protected abstract Ticket OnCreateTicket(string userName, string password, out AuthCodes authCode, out string companyFilePath);
 
         [WebMethod()]
         public string connectionError([XmlElement(ElementName = "ticket")]string strTicket, string hresult, string message)

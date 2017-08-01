@@ -7,21 +7,21 @@ using System.Threading.Tasks;
 
 namespace com.paralib.paraquick.qbxml
 {
-    public class ResponseMessage : Message, IEnumerable<IRsType>
+    public class RsMsgSet : MsgSet, IEnumerable<IRsMsg>
     {
-        protected List<IRsType> _responses { get; set; } = new List<IRsType>();
-        protected Dictionary<string, IRsType> _ids { get; set; } = new Dictionary<string, IRsType>();
+        protected List<IRsMsg> _rsMsgs { get; set; } = new List<IRsMsg>();
+        protected Dictionary<string, IRsMsg> _ids { get; set; } = new Dictionary<string, IRsMsg>();
 
-        public void Add(string id, IRsType response)
+        public void Add(string id, IRsMsg rsMsg)
         {
-            response.requestID = id;
-            _responses.Add(response);
-            _ids.Add(id, response);
+            rsMsg.requestID = id;
+            _rsMsgs.Add(rsMsg);
+            _ids.Add(id, rsMsg);
         }
 
         public void Clear()
         {
-            _responses.Clear();
+            _rsMsgs.Clear();
             _ids.Clear();
         }
 
@@ -29,11 +29,11 @@ namespace com.paralib.paraquick.qbxml
         {
             get
             {
-                return _responses.Count;
+                return _rsMsgs.Count;
             }
         }
 
-        public IRsType this[string id]
+        public IRsMsg this[string id]
         {
             get
             {
@@ -41,9 +41,9 @@ namespace com.paralib.paraquick.qbxml
             }
         }
 
-        public IEnumerator<IRsType> GetEnumerator()
+        public IEnumerator<IRsMsg> GetEnumerator()
         {
-            return _responses.GetEnumerator();
+            return _rsMsgs.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -61,23 +61,23 @@ namespace com.paralib.paraquick.qbxml
         {
             Clear();
 
-            QBXMLMsgsRs rsMsg = (QBXMLMsgsRs)qbxml.Items[0];
+            QBXMLMsgsRs rsMsgSet = (QBXMLMsgsRs)qbxml.Items[0];
 
-            if (rsMsg.Items != null)
+            if (rsMsgSet.Items != null)
             {
                 //order doesn't "matter" here, but we preserve it
-                foreach (var obj in rsMsg.Items)
+                foreach (var obj in rsMsgSet.Items)
                 {
-                    if (obj is IRsType)
+                    if (obj is IRsMsg)
                     {
-                        var rs = (IRsType)obj;
+                        var rs = (IRsMsg)obj;
 
                         if (rs.requestID == null)
                         {
                             rs.requestID = Guid.NewGuid().ToString();
                         }
 
-                        _responses.Add(rs);
+                        _rsMsgs.Add(rs);
                         _ids.Add(rs.requestID, rs);
                     }
                     else

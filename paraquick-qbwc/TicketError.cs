@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace com.paralib.paraquick.qbwc
 {
-    public enum TicketCodes
+    public class TicketError
     {
-        VALID, NONE, BUSY, NVU
+        public int? Id;
+        public DateTime Date;
+        public string Message;
     }
 }

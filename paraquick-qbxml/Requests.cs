@@ -10,7 +10,7 @@ namespace com.paralib.paraquick.qbxml
 {
    
 
-    public partial class CustomerAddRqType : SerializableType, IRqType
+    public partial class CustomerAddRqType : Msg, IRqMsg
     {
         protected override XmlSerializer GetSerializer()
         {
@@ -18,7 +18,7 @@ namespace com.paralib.paraquick.qbxml
         }
     }
 
-    public partial class CustomerModRqType : SerializableType, IRqType
+    public partial class CustomerModRqType : Msg, IRqMsg
     {
         protected override XmlSerializer GetSerializer()
         {
@@ -26,7 +26,7 @@ namespace com.paralib.paraquick.qbxml
         }
     }
 
-    public partial class EstimateAddRqType : SerializableType, IRqType
+    public partial class EstimateAddRqType : Msg, IRqMsg
     {
         protected override XmlSerializer GetSerializer()
         {
@@ -34,7 +34,7 @@ namespace com.paralib.paraquick.qbxml
         }
     }
 
-    public partial class EstimateModRqType : SerializableType, IRqType
+    public partial class EstimateModRqType : Msg, IRqMsg
     {
         protected override XmlSerializer GetSerializer()
         {

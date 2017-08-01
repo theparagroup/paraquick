@@ -9,7 +9,7 @@ using System.Xml.Serialization;
 
 namespace com.paralib.paraquick.qbxml
 {
-    public abstract class SerializableType
+    public abstract class Msg
     {
         protected abstract XmlSerializer GetSerializer();
 
@@ -40,6 +40,21 @@ namespace com.paralib.paraquick.qbxml
                 }
             }
         }
+
+        public static Msg Deserialize(System.Type type, string xml)
+        {
+            var st = (Msg)Activator.CreateInstance(type);
+
+            var ser = st.GetSerializer();
+
+
+            using (StringReader sr = new StringReader(xml))
+            {
+                return (Msg)ser.Deserialize(sr);
+            }
+
+        }
+
     }
 
 }

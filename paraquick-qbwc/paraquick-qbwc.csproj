@@ -46,8 +46,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HResult.cs" />
-    <Compile Include="RequestMessageSet.cs" />
-    <Compile Include="TicketCodes.cs" />
+    <Compile Include="Request.cs" />
+    <Compile Include="MessageSet.cs" />
+    <Compile Include="AuthCodes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QbWcServiceBase.cs">
       <SubType>Component</SubType>
@@ -56,6 +57,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Ticket.cs" />
+    <Compile Include="TicketError.cs" />
     <Compile Include="TicketStatuses.cs" />
   </ItemGroup>
   <ItemGroup>

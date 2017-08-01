@@ -31,7 +31,6 @@ namespace com.paralib.paraquick.Models.Ef
 		public DbSet<EfParaquickTicketStatus> ParaquickTicketStatuses { get; set; }
 		public DbSet<EfParaquickTicket> ParaquickTickets { get; set; }
 		public DbSet<EfParaquickTicketError> ParaquickTicketErrors { get; set; }
-		public DbSet<EfParaquickMessageType> ParaquickMessageTypes { get; set; }
 		public DbSet<EfParaquickRequest> ParaquickRequests { get; set; }
 	}
 }

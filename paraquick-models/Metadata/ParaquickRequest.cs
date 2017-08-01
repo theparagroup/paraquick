@@ -39,27 +39,29 @@ namespace com.paralib.paraquick.Models.Metadata
 		[ParaType(ParaTypes.Int32)]
 		public object RequestSequence;
 
-		[Display(Name="Message Type Id")]
-		[Required(ErrorMessage="Message Type Id is required")]
-		[ParaType(ParaTypes.Key)]
-		public object MessageTypeId;
+		[Display(Name="Message Type")]
+		[Required(ErrorMessage="Message Type is required")]
+		[ParaType(ParaTypes.Text)]
+		public object MessageType;
 
 		[Display(Name="Request Id")]
 		[Required(ErrorMessage="Request Id is required")]
 		[ParaType(ParaTypes.Name)]
 		public object RequestId;
 
-		[Display(Name="Request")]
+		[Display(Name="Request Xml")]
+		[Required(ErrorMessage="Request Xml is required")]
 		[ParaType(ParaTypes.LongText)]
-		public object Request;
+		public object RequestXml;
 
 		[Display(Name="Request Date")]
+		[Required(ErrorMessage="Request Date is required")]
 		[ParaType(ParaTypes.DateTime)]
 		public object RequestDate;
 
-		[Display(Name="Response")]
+		[Display(Name="Response Xml")]
 		[ParaType(ParaTypes.LongText)]
-		public object Response;
+		public object ResponseXml;
 
 		[Display(Name="Response Date")]
 		[ParaType(ParaTypes.DateTime)]

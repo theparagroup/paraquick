@@ -10,7 +10,7 @@ using System.Xml.Serialization;
 
 namespace com.paralib.paraquick.qbxml
 {
-    public abstract class Message
+    public abstract class MsgSet
     {
         protected abstract QBXML OnSerialize();
         protected abstract void OnDeserialize(QBXML qbxml);

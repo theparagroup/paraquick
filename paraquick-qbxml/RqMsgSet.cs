@@ -1,34 +1,35 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace com.paralib.paraquick.qbxml
 {
-    public class RequestMessage : Message, IEnumerable<IRqType>
+    public class RqMsgSet : MsgSet, IEnumerable<IRqMsg>
     {
-        protected List<IRqType> _requests { get; set; } = new List<IRqType>();
-        protected Dictionary<string, IRqType> _ids { get; set; } = new Dictionary<string, IRqType>();
+        protected List<IRqMsg> _rqMsgs { get; set; } = new List<IRqMsg>();
+        protected Dictionary<string, IRqMsg> _ids { get; set; } = new Dictionary<string, IRqMsg>();
 
-        public RequestMessage(QBXMLMsgsRqOnError onError= QBXMLMsgsRqOnError.stopOnError)
+        public RqMsgSet(QBXMLMsgsRqOnError onError= QBXMLMsgsRqOnError.stopOnError)
         {
             OnError = onError;
         }
 
         public QBXMLMsgsRqOnError OnError { get; set; }
 
-        public void Add(string id, IRqType request)
+        public void Add(string id, IRqMsg rqMsg)
         {
-            request.requestID = id;
-            _requests.Add(request);
-            _ids.Add(id, request);
+            rqMsg.requestID = id;
+            _rqMsgs.Add(rqMsg);
+            _ids.Add(id, rqMsg);
         }
 
         public void Clear()
         {
-            _requests.Clear();
+            _rqMsgs.Clear();
             _ids.Clear();
         }
 
@@ -36,11 +37,11 @@ namespace com.paralib.paraquick.qbxml
         {
             get
             {
-                return _requests.Count;
+                return _rqMsgs.Count;
             }
         }
 
-        public IRqType this[string id]
+        public IRqMsg this[string id]
         {
             get
             {
@@ -48,9 +49,9 @@ namespace com.paralib.paraquick.qbxml
             }
         }
 
-        public IEnumerator<IRqType> GetEnumerator()
+        public IEnumerator<IRqMsg> GetEnumerator()
         {
-            return _requests.GetEnumerator();
+            return _rqMsgs.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -66,23 +67,26 @@ namespace com.paralib.paraquick.qbxml
 
         protected override QBXML OnSerialize()
         {
-            QBXMLMsgsRq msgRq = new QBXMLMsgsRq();
-            msgRq.onError = OnError;
+            QBXMLMsgsRq msgRqSet = new QBXMLMsgsRq();
+            msgRqSet.onError = OnError;
 
-            List<IRqType> rqs = new List<IRqType>();
+            List<IRqMsg> rqMsgs = new List<IRqMsg>();
 
             //request order matters!
-            foreach (var rq in _requests)
+            foreach (var rq in _rqMsgs)
             {
-                rqs.Add(rq);
+                rqMsgs.Add(rq);
             }
 
-            msgRq.Items = rqs.ToArray();
+            msgRqSet.Items = rqMsgs.ToArray();
 
-            QBXML qbxml = new QBXML() { Items = new[] { msgRq }, ItemsElementName = new[] { ItemsChoiceType99.QBXMLMsgsRq } };
+            QBXML qbxml = new QBXML() { Items = new[] { msgRqSet }, ItemsElementName = new[] { ItemsChoiceType99.QBXMLMsgsRq } };
 
             return qbxml;
         }
+
+
+        
 
     }
 }

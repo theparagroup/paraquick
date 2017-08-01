@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?qbxml version="13.0"?>
+<QBXML>
+  <QBXMLMsgsRq onError="stopOnError">
+    <CustomerAddRq requestID="1">
+      <CustomerAdd>
+        <Name>What Is</Name>
+      </CustomerAdd>
+    </CustomerAddRq>
+    <CustomerAddRq requestID="2">
+      <CustomerAdd>
+        <Name>What Is</Name>
+      </CustomerAdd>
+    </CustomerAddRq>
+  </QBXMLMsgsRq>
+</QBXML>

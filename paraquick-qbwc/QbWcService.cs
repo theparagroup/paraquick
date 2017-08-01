@@ -16,7 +16,7 @@ namespace com.paralib.paraquick.qbwc
             return "done";
         }
 
-        protected override Ticket OnCreateTicket(string userName, string password, out TicketCodes code, out string companyFilePath)
+        protected override Ticket OnCreateTicket(string userName, string password, out AuthCodes code, out string companyFilePath)
         {
             //Find the company based on the unique user name
             //Find a "new" ticket and change its status to "processing"
