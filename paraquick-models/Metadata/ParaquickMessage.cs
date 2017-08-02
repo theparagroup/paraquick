@@ -7,15 +7,15 @@ using com.paralib.paraquick.Models.Metadata;
 
 namespace com.paralib.paraquick.Models
 {
-	[MetadataType(typeof(ParaquickRequestMetadata))]
-	public partial class ParaquickRequest
+	[MetadataType(typeof(ParaquickMessageMetadata))]
+	public partial class ParaquickMessage
 	{
 	}
 }
 
 namespace com.paralib.paraquick.Models.Metadata
 {
-	public class ParaquickRequestMetadata
+	public class ParaquickMessageMetadata
 	{
 
 		[Key, Column(Order = 0)]
@@ -24,25 +24,25 @@ namespace com.paralib.paraquick.Models.Metadata
 		[ParaType(ParaTypes.Key)]
 		public object Id;
 
-		[Display(Name="Ticket Id")]
-		[Required(ErrorMessage="Ticket Id is required")]
+		[Display(Name="Session Id")]
+		[Required(ErrorMessage="Session Id is required")]
 		[ParaType(ParaTypes.Key)]
-		public object TicketId;
+		public object SessionId;
+
+		[Display(Name="Message Set Sequence")]
+		[Required(ErrorMessage="Message Set Sequence is required")]
+		[ParaType(ParaTypes.Int32)]
+		public object MessageSetSequence;
 
 		[Display(Name="Message Sequence")]
 		[Required(ErrorMessage="Message Sequence is required")]
 		[ParaType(ParaTypes.Int32)]
 		public object MessageSequence;
 
-		[Display(Name="Request Sequence")]
-		[Required(ErrorMessage="Request Sequence is required")]
-		[ParaType(ParaTypes.Int32)]
-		public object RequestSequence;
-
-		[Display(Name="Message Type")]
-		[Required(ErrorMessage="Message Type is required")]
+		[Display(Name="Request Message Type")]
+		[Required(ErrorMessage="Request Message Type is required")]
 		[ParaType(ParaTypes.Text)]
-		public object MessageType;
+		public object RequestMessageType;
 
 		[Display(Name="Request Id")]
 		[Required(ErrorMessage="Request Id is required")]

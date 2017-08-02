@@ -45,8 +45,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SessionUtils.cs" />
+    <Compile Include="VersionCodes.cs" />
+    <Compile Include="AuthOptions.cs" />
     <Compile Include="HResult.cs" />
-    <Compile Include="Request.cs" />
+    <Compile Include="Message.cs" />
     <Compile Include="MessageSet.cs" />
     <Compile Include="AuthCodes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -56,9 +59,8 @@
     <Compile Include="QbWcService.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Ticket.cs" />
-    <Compile Include="TicketError.cs" />
-    <Compile Include="TicketStatuses.cs" />
+    <Compile Include="Session.cs" />
+    <Compile Include="SessionStatuses.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="notes.txt" />

@@ -5,9 +5,9 @@ using com.paralib.paraquick.Models;
 
 namespace com.paralib.paraquick.Models.Ef
 {
-	public partial class EfParaquickMessageType:ParaquickMessageType
+	public partial class EfParaquickMessage:ParaquickMessage
 	{
-		[InverseProperty("MessageType")]
-		public virtual List<EfParaquickRequest> ParaquickRequests { get; set;}
+		[ForeignKey("SessionId")]
+		public virtual EfParaquickSession Session { get; set;}
 	}
 }

@@ -5,9 +5,9 @@ using com.paralib.paraquick.Models;
 
 namespace com.paralib.paraquick.Models.Ef
 {
-	public partial class EfParaquickError:ParaquickError
+	public partial class EfParaquickSessionStatus:ParaquickSessionStatus
 	{
-		[ForeignKey("TicketId")]
-		public virtual EfParaquickTicket Ticket { get; set;}
+		[InverseProperty("Status")]
+		public virtual List<EfParaquickSession> ParaquickSessions { get; set;}
 	}
 }

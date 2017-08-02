@@ -11,27 +11,32 @@ namespace com.paralib.paraquick.qbwc
     public class MessageSet
     {
         public int Sequence { protected set; get; }
-        protected List<Request> _requests = new List<Request>();
+        protected List<Message> _messages = new List<Message>();
 
-        public IEnumerable<Request> Requests => _requests;
+        public IEnumerable<Message> Messages => _messages;
 
         public MessageSet(int sequence)
         {
             Sequence = sequence;
         }
 
-        public Request NewRequest(int sequence, IRqMsg rqMsg)
+        public MessageSet(EfParaquickMessage efMessage)
         {
-            Request request = new Request(sequence, rqMsg);
-            _requests.Add(request);
-            return request;
+            Sequence = efMessage.MessageSetSequence;
         }
 
-        internal Request AddRequest(EfParaquickRequest efRequest)
+        public Message NewMessage(int sequence, IRqMsg rqMsg)
         {
-            Request request = new Request(efRequest);
-            _requests.Add(request);
-            return request;
+            Message message = new Message(sequence, rqMsg);
+            _messages.Add(message);
+            return message;
+        }
+
+        internal Message AddMessage(EfParaquickMessage efMessage)
+        {
+            Message message = new Message(efMessage);
+            _messages.Add(message);
+            return message;
         }
 
 

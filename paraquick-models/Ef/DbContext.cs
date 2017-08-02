@@ -28,9 +28,9 @@ namespace com.paralib.paraquick.Models.Ef
 		public DbSet<EfParaquickCompany> ParaquickCompanies { get; set; }
 		public DbSet<EfParaquickCustomer> ParaquickCustomers { get; set; }
 		public DbSet<EfParaquickEstimate> ParaquickEstimates { get; set; }
-		public DbSet<EfParaquickTicketStatus> ParaquickTicketStatuses { get; set; }
-		public DbSet<EfParaquickTicket> ParaquickTickets { get; set; }
-		public DbSet<EfParaquickTicketError> ParaquickTicketErrors { get; set; }
-		public DbSet<EfParaquickRequest> ParaquickRequests { get; set; }
+		public DbSet<EfParaquickSessionStatus> ParaquickSessionStatuses { get; set; }
+		public DbSet<EfParaquickSession> ParaquickSessions { get; set; }
+		public DbSet<EfParaquickSessionError> ParaquickSessionErrors { get; set; }
+		public DbSet<EfParaquickMessage> ParaquickMessages { get; set; }
 	}
 }

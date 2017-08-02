@@ -7,15 +7,15 @@ using com.paralib.paraquick.Models.Metadata;
 
 namespace com.paralib.paraquick.Models
 {
-	[MetadataType(typeof(ParaquickTicketMetadata))]
-	public partial class ParaquickTicket
+	[MetadataType(typeof(ParaquickSessionMetadata))]
+	public partial class ParaquickSession
 	{
 	}
 }
 
 namespace com.paralib.paraquick.Models.Metadata
 {
-	public class ParaquickTicketMetadata
+	public class ParaquickSessionMetadata
 	{
 
 		[Key, Column(Order = 0)]
@@ -29,12 +29,17 @@ namespace com.paralib.paraquick.Models.Metadata
 		[ParaType(ParaTypes.Key)]
 		public object CompanyId;
 
-		[Display(Name="Value")]
-		[Required(ErrorMessage="Value is required")]
-		public object Value;
+		[Display(Name="Ticket")]
+		[Required(ErrorMessage="Ticket is required")]
+		[ParaType(ParaTypes.Name)]
+		public object Ticket;
+
+		[Display(Name="Create Date")]
+		[Required(ErrorMessage="Create Date is required")]
+		[ParaType(ParaTypes.DateTime)]
+		public object CreateDate;
 
 		[Display(Name="Start Date")]
-		[Required(ErrorMessage="Start Date is required")]
 		[ParaType(ParaTypes.DateTime)]
 		public object StartDate;
 

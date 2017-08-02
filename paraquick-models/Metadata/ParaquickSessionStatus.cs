@@ -7,15 +7,15 @@ using com.paralib.paraquick.Models.Metadata;
 
 namespace com.paralib.paraquick.Models
 {
-	[MetadataType(typeof(ParaquickMessageTypeMetadata))]
-	public partial class ParaquickMessageType
+	[MetadataType(typeof(ParaquickSessionStatusMetadata))]
+	public partial class ParaquickSessionStatus
 	{
 	}
 }
 
 namespace com.paralib.paraquick.Models.Metadata
 {
-	public class ParaquickMessageTypeMetadata
+	public class ParaquickSessionStatusMetadata
 	{
 
 		[Key, Column(Order = 0)]
