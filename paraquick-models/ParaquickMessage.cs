@@ -8,7 +8,8 @@ namespace com.paralib.paraquick.Models
 		public int SessionId { get; set;}
 		public int MessageSetSequence { get; set;}
 		public int MessageSequence { get; set;}
-		public string RequestMessageType { get; set;}
+		public int RequestMessageTypeId { get; set;}
+		public int ApplicationEntityId { get; set;}
 		public string RequestId { get; set;}
 		public string RequestXml { get; set;}
 		public DateTime RequestDate { get; set;}

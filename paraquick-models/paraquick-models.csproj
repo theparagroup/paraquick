@@ -50,6 +50,7 @@
     <Compile Include="Ef\EfParaquickCustomer.cs" />
     <Compile Include="Ef\EfParaquickEstimate.cs" />
     <Compile Include="Ef\EfParaquickMessage.cs" />
+    <Compile Include="Ef\EfParaquickMessageType.cs" />
     <Compile Include="Ef\EfParaquickSession.cs" />
     <Compile Include="Ef\EfParaquickSessionError.cs" />
     <Compile Include="Ef\EfParaquickSessionStatus.cs" />
@@ -57,6 +58,7 @@
     <Compile Include="Logic\ParaquickCustomer.cs" />
     <Compile Include="Logic\ParaquickEstimate.cs" />
     <Compile Include="Logic\ParaquickMessage.cs" />
+    <Compile Include="Logic\ParaquickMessageType.cs" />
     <Compile Include="Logic\ParaquickSession.cs" />
     <Compile Include="Logic\ParaquickSessionError.cs" />
     <Compile Include="Logic\ParaquickSessionStatus.cs" />
@@ -64,6 +66,7 @@
     <Compile Include="Metadata\ParaquickCustomer.cs" />
     <Compile Include="Metadata\ParaquickEstimate.cs" />
     <Compile Include="Metadata\ParaquickMessage.cs" />
+    <Compile Include="Metadata\ParaquickMessageType.cs" />
     <Compile Include="Metadata\ParaquickSession.cs" />
     <Compile Include="Metadata\ParaquickSessionError.cs" />
     <Compile Include="Metadata\ParaquickSessionStatus.cs" />
@@ -71,6 +74,7 @@
     <Compile Include="ParaquickCustomer.cs" />
     <Compile Include="ParaquickEstimate.cs" />
     <Compile Include="ParaquickMessage.cs" />
+    <Compile Include="ParaquickMessageType.cs" />
     <Compile Include="ParaquickSession.cs" />
     <Compile Include="ParaquickSessionError.cs" />
     <Compile Include="ParaquickSessionStatus.cs" />

@@ -20,11 +20,15 @@ namespace com.paralib.paraquick.qbxml
 
         public QBXMLMsgsRqOnError OnError { get; set; }
 
-        public void Add(string id, IRqMsg rqMsg)
+        public void Add(IRqMsg rqMsg)
         {
-            rqMsg.requestID = id;
+            if (string.IsNullOrEmpty(rqMsg.requestID))
+            {
+                throw new InvalidOperationException("Request must have an id");
+            }
+
             _rqMsgs.Add(rqMsg);
-            _ids.Add(id, rqMsg);
+            _ids.Add(rqMsg.requestID, rqMsg);
         }
 
         public void Clear()

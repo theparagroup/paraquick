@@ -30,6 +30,10 @@ namespace com.paralib.paraquick.qbwc
     {
         protected ILog Logger { private set; get;  } = Paralib.GetLogger(typeof(QbWcServiceBase));
 
+        protected void Fatal(Exception ex)
+        {
+            Logger.Fatal(ex.Message,ex);
+        }
 
         [WebMethod()]
         public string serverVersion()
@@ -42,7 +46,15 @@ namespace com.paralib.paraquick.qbwc
                     "whatever you want"
             */
 
-            return OnServerVersion();
+            try
+            {
+                return OnServerVersion();
+            }
+            catch (Exception ex)
+            {
+                Fatal(ex);
+                throw;
+            }
         }
 
         protected virtual string OnServerVersion()
@@ -71,23 +83,32 @@ namespace com.paralib.paraquick.qbwc
 
             */
 
-            string message;
-            VersionCodes versionCode = OnClientVersion(strClientVersion, out message);
-
-            switch (versionCode)
+            try
             {
-                case VersionCodes.WARNING:
-                    return $"W:{message}";
+                string message;
+                VersionCodes versionCode = OnClientVersion(strClientVersion, out message);
 
-                case VersionCodes.ERROR:
-                    return $"E:{message}";
+                switch (versionCode)
+                {
+                    case VersionCodes.WARNING:
+                        return $"W:{message}";
 
-                case VersionCodes.OKAY:
-                    return $"O:{message}";
+                    case VersionCodes.ERROR:
+                        return $"E:{message}";
+
+                    case VersionCodes.OKAY:
+                        return $"O:{message}";
+                }
+
+                //VALID
+                return "";
+            }
+            catch (Exception ex)
+            {
+                Fatal(ex);
+                throw;
             }
 
-            //VALID
-            return "";
 
         }
 
@@ -106,58 +127,71 @@ namespace com.paralib.paraquick.qbwc
                 Return strings:
 
                     0: ticket
-                    1:  
+                    1: "auth code" 
                         NONE - "no data exchange required"
                         NVU - invalid user
-                        BUSY
-                        "<company file path>"
-                        "" - use open qb
+                        BUSY - busy, try again later
+                        "<company file path>" (valid authentication, work to do)
+                        "" - use the company file qb currently has open (valid authentication, work to do)
                     2: postpone seconds
                     3: minimum autorun for every minutes
                     4: minimum autorun for every seconds
 
             */
 
-
-            AuthCodes authCode;
-            AuthOptions authOptions;
-            string ticket = OnAuthenticate(strUserName, strPassword, out authCode, out authOptions);
-
-            List<string> response = new List<string>();
-
-            //0: ticket
-            response.Add(ticket);
-
-            //1: code or companyfile (can be blank)
-            switch (authCode)
+            try
             {
-                case AuthCodes.VALID:
-                    response.Add(authOptions?.CompanyFilePath??"");
-                    break;
-                case AuthCodes.NONE:
-                    response.Add("NONE");
-                    break;
-                case AuthCodes.NVU:
-                    response.Add("NVU");
-                    break;
-                case AuthCodes.BUSY:
-                    response.Add("BUSY");
-                    break;
+                AuthCodes authCode;
+                AuthOptions authOptions;
+                string ticket = OnAuthenticate(strUserName, strPassword, out authCode, out authOptions);
+
+                List<string> response = new List<string>();
+
+                //0: ticket
+                response.Add(ticket);
+
+                //1: code or companyfile (can be blank)
+                switch (authCode)
+                {
+                    case AuthCodes.VALID:
+                        //note: VALID isn't an actual QbWc value
+                        //      rather, it's a placeholder for when we return the company file path 
+                        //      or an empty string here, instead of one of the codes (NONE, NVU, BUSY)
+                        response.Add(authOptions?.CompanyFilePath ?? "");
+                        break;
+                    case AuthCodes.NONE:
+                        response.Add("NONE");
+                        break;
+                    case AuthCodes.NVU:
+                        response.Add("NVU");
+                        break;
+                    case AuthCodes.BUSY:
+                        response.Add("BUSY");
+                        break;
+                }
+
+                if (authOptions != null)
+                {
+                    //2: postpone seconds
+                    if (authOptions.PostponeSeconds.HasValue) response.Add(authOptions.PostponeSeconds.ToString());
+
+                    //4: minimum autorun minutes (in seconds)
+                    if (authOptions.RunEveryMinuteMinimum.HasValue) response.Add(authOptions.RunEveryMinuteMinimum.ToString());
+
+                    //5: minimum autorun seconds
+                    if (authOptions.RunEverySecondMinimum.HasValue) response.Add(authOptions.RunEverySecondMinimum.ToString());
+                }
+
+                return response.ToArray();
+
+            }
+            catch (Exception ex)
+            {
+                Fatal(ex);
+                throw;
             }
 
-            if (authOptions != null)
-            {
-                //2: postpone seconds
-                if (authOptions.PostponeSeconds.HasValue) response.Add(authOptions.PostponeSeconds.ToString());
 
-                //4: minimum autorun minutes (in seconds)
-                if (authOptions.RunEveryMinuteMinimum.HasValue) response.Add(authOptions.RunEveryMinuteMinimum.ToString());
-
-                //5: minimum autorun seconds
-                if (authOptions.RunEverySecondMinimum.HasValue) response.Add(authOptions.RunEverySecondMinimum.ToString());
-            }
-
-            return response.ToArray();
 
         }
 
@@ -175,7 +209,16 @@ namespace com.paralib.paraquick.qbwc
                     "<path to company file>" - retry 
             */
 
-            return OnConnectionError(strTicket, new HResult(strHresult, strMessage));
+            try
+            {
+                return OnConnectionError(strTicket, new HResult(strHresult, strMessage));
+            }
+            catch (Exception ex)
+            {
+                Fatal(ex);
+                throw;
+            }
+
         }
 
         protected virtual string OnConnectionError(string ticket, HResult hResult)
@@ -201,8 +244,16 @@ namespace com.paralib.paraquick.qbwc
                     "" for error (getLastError will be called - documentation is wrong!)
 
             */
+            try
+            {
+                return OnCreateRequestMessage(strTicket, strHCPResponse, strCompanyFileName, qbXMLCountry, qbXMLMajorVers, qbXMLMinorVers);
+            }
+            catch (Exception ex)
+            {
+                Fatal(ex);
+                throw;
+            }
 
-            return OnCreateRequestMessage(strTicket, strHCPResponse, strCompanyFileName, qbXMLCountry, qbXMLMajorVers, qbXMLMinorVers);
         }
 
         protected abstract string OnCreateRequestMessage(string ticket, string hcpXml, string companyFilePath, string qbCountry, int qbMajorVersion, int qbMinorVersion);
@@ -213,7 +264,16 @@ namespace com.paralib.paraquick.qbwc
             //0-100 : % complete
             //<0    : error (getLastError will be called)
 
-            return OnResponseMessage(strTicket, strResponse, (strHresult == "" ? null : new HResult(strHresult, strMessage)));
+            try
+            {
+                return OnResponseMessage(strTicket, strResponse, (strHresult == "" ? null : new HResult(strHresult, strMessage)));
+            }
+            catch (Exception ex)
+            {
+                Fatal(ex);
+                throw;
+            }
+
         }
 
         protected abstract int OnResponseMessage(string ticket, string responseXml, HResult hResult);
@@ -226,12 +286,21 @@ namespace com.paralib.paraquick.qbwc
             //or when sendRequestXML returns ""
             //any message except "Interactive mode", which starts interactive mode
 
-            return OnGetLastError(strTicket);
+            try
+            {
+                return OnGetLastError(strTicket);
+            }
+            catch (Exception ex)
+            {
+                Fatal(ex);
+                throw;
+            }
+
         }
 
         protected virtual string OnGetLastError(string ticket)
         {
-            return "";
+            return "Errors occurred.";
         }
 
 
@@ -241,13 +310,22 @@ namespace com.paralib.paraquick.qbwc
             //wc informing us session is over
             //return final message to user
 
-            return OnCloseConnection(strTicket);
+            try
+            {
+                return OnCloseConnection(strTicket);
+            }
+            catch (Exception ex)
+            {
+                Fatal(ex);
+                throw;
+            }
+
 
         }
 
         protected virtual string OnCloseConnection(string ticket)
         {
-            return "";
+            return "Session ended.";
         }
 
 

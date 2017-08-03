@@ -12,11 +12,15 @@ namespace com.paralib.paraquick.qbxml
         protected List<IRsMsg> _rsMsgs { get; set; } = new List<IRsMsg>();
         protected Dictionary<string, IRsMsg> _ids { get; set; } = new Dictionary<string, IRsMsg>();
 
-        public void Add(string id, IRsMsg rsMsg)
+        public void Add(IRsMsg rsMsg)
         {
-            rsMsg.requestID = id;
+            if (string.IsNullOrEmpty(rsMsg.requestID))
+            {
+                throw new InvalidOperationException("Response must have an id");
+            }
+
             _rsMsgs.Add(rsMsg);
-            _ids.Add(id, rsMsg);
+            _ids.Add(rsMsg.requestID, rsMsg);
         }
 
         public void Clear()

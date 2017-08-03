@@ -10,31 +10,48 @@ namespace com.paralib.paraquick.qbwc
 {
     public abstract class QbWcService : QbWcServiceBase
     {
+        protected void Error(string message)
+        {
+            Logger.Error(message);
+        }
+
+        protected void Error(DbContext db, EfParaquickSession efSession, string message)
+        {
+            Error(message);
+            ServiceUtils.Error(db, efSession, message);
+        }
+
         protected override string OnAuthenticate(string username, string password, out AuthCodes authCode, out AuthOptions authOptions)
         {
 
-            using (DbContext db = new DbContext())
+            using (var db=ServiceUtils.CreateDbContext())
             {
                 //Find the company based on the unique user name
                 EfParaquickCompany efCompany = (from c in db.ParaquickCompanies where c.UserName == username && c.Password == password select c).FirstOrDefault();
 
-                authOptions = new AuthOptions(efCompany.Path);
-
                 if (efCompany != null)
                 {
-                    EfParaquickSession efSession = SessionUtils.FindNewSession(db, efCompany.Id);
+                    authOptions = new AuthOptions();
+
+                    EfParaquickSession efSession = ServiceUtils.FindNextSession(db, efCompany.Id);
 
                     //work to do?
                     if (efSession != null)
                     {
                         //allow implementors to override
-                        authCode= OnNewSession(efSession.Ticket, authOptions);
+                        authCode= OnNewSession(db, efSession, authOptions);
 
                         if (authCode==AuthCodes.VALID)
                         {
                             //open and return ticket
-                            SessionUtils.Open(db,efSession);
+                            ServiceUtils.Open(db,efSession);
                             return efSession.Ticket;
+                        }
+                        else
+                        {
+                            //implementors can override the code and the options
+                            //but not the session record or the ticket
+                            return ServiceUtils.ZeroTicket;
                         }
 
                     }
@@ -47,79 +64,146 @@ namespace com.paralib.paraquick.qbwc
                 }
                 else
                 {
-                    Logger.Error($"username {username} and password {password} incorrect");
+                    //bad credentials
+                    Error($"Incorrect username or password for user ({username})");
                     authCode = AuthCodes.NVU;
                 }
 
 
                 authOptions = null;
-                return SessionUtils.ZeroTicket;
+                return ServiceUtils.ZeroTicket;
             }
         }
 
-        protected virtual AuthCodes OnNewSession(string ticket, AuthOptions authOptions)
+        protected virtual AuthCodes OnNewSession(DbContext db, EfParaquickSession efSession, AuthOptions authOptions)
         {
-            //allow implementation to set busy or change authoptions...
+            //the default behavior is to require the company file to be open ("") with no other options specified
+            //but implmentations may want to do something different
             return AuthCodes.VALID;
         }
 
 
         protected override string OnConnectionError(string ticket, HResult hResult)
         {
-            using (DbContext db = new DbContext())
+            if (ticket != ServiceUtils.ZeroTicket)
             {
-                EfParaquickSession efSession = SessionUtils.FindSession(db, ticket);
-
-                if (efSession!=null)
+                using (var db = ServiceUtils.CreateDbContext())
                 {
-                    SessionUtils.Error(db, efSession, hResult.Format());
-                }
-                else
-                {
-                    Logger.Error("can't find ticket [{ticket}]");
-                }
+                    EfParaquickSession efSession = ServiceUtils.FindSession(db, ticket);
 
-                return "done";
+                    if (efSession != null)
+                    {
+                        //log this error
+                        Error(db, efSession, hResult.Format());
+
+                        //ask the implementation if we should tell the WC to retry
+                        string companyFilePath;
+                        if (OnRetryConnection(db, efSession, hResult, out companyFilePath))
+                        {
+                            return companyFilePath;
+                        }
+                        else
+                        {
+                            //if not, we reset the session to "New" and let the user fix it and try again
+                            ServiceUtils.Reset(db, efSession);
+                        }
+
+                    }
+                    else
+                    {
+                        //note: getLastError will not be called so we log this here
+                        Error("Can't find ticket ({ticket}) during connection error");
+                    }
+
+                }
             }
+            else
+            {
+                //note: getLastError will not be called so we log this here
+                Error("Can't process zeroticket during connection error");
+            }
+
+            return "done";
+
+        }
+
+        protected virtual bool OnRetryConnection(DbContext db, EfParaquickSession efSession, HResult hResult, out string companyFilePath)
+        {
+            //default behavior is to not retry
+            //but implmentations may want to instruct the webconnector to try again, optionally with another file
+            companyFilePath = null;
+            return false;
         }
 
         protected override string OnCreateRequestMessage(string ticket, string hcpXml, string companyFilePath, string qbCountry, int qbMajorVersion, int qbMinorVersion)
         {
-            if (ticket == SessionUtils.ZeroTicket)
+            //zerotickets should never be seen here, but if so, they will recur in getLastError and be logged there
+            if (ticket!=ServiceUtils.ZeroTicket)
             {
-                //return empty work message
-                var requestMessage = new RqMsgSet();
-                string xml = requestMessage.Serialize();
-                return xml;
-            }
-            else
-            {
-                using (DbContext db = new DbContext())
+                using (var db = ServiceUtils.CreateDbContext())
                 {
-                    EfParaquickSession efSession = SessionUtils.FindSession(db, ticket);
+                    EfParaquickSession efSession = ServiceUtils.FindSession(db, ticket);
 
+                    //bad tickets will recur in getLastError and be logged there
                     if (efSession != null)
                     {
                         //confirm file path
-                        if (IsCompanyFileValid(null, companyFilePath))
+                        if (IsCompanyFileValid(db, efSession, companyFilePath))
                         {
-                            //TODO find next message for this ticket
+                            //save the hcpXml & other information in the company record
+                            if (!string.IsNullOrEmpty(hcpXml))
+                            {
+                                efSession.Company.HcpXml = hcpXml;
+                                efSession.Company.Country = qbCountry;
+                                efSession.Company.Major = qbMajorVersion;
+                                efSession.Company.Minor = qbMinorVersion;
+                                db.SaveChanges();
+                            }
 
-                            return "xml";
+
+                            //find next message for this ticket
+                            List<EfParaquickMessage> efMessages = ServiceUtils.FindNextMessageSet(db, efSession);
+
+                            if (efMessages!=null)
+                            {
+                                RqMsgSet rqMsgSet = new RqMsgSet();
+
+                                foreach (var efMessage in efMessages)
+                                {
+                                    //deserialize request message
+                                    IRqMsg rqMsg = (IRqMsg)Msg.Deserialize(efMessage.RequestMessageType.RequestTypeName, efMessage.RequestXml);
+
+                                    //add it to message set
+                                    rqMsgSet.Add(rqMsg);
+                                }
+
+                                //TODO is "nothing to do" at this point an error?
+
+                                //allow implementation to see request
+                                OnRequest(db, efMessages, rqMsgSet);
+
+                                //send it
+                                string xml = rqMsgSet.Serialize();
+                                return xml;
+                            }
+                            else
+                            {
+                                //something wrong with the message set in the database, log it
+                                Error(db, efSession, $"An error occurred when building the message set for session ({efSession.Id})");
+
+                                //this is pretty bad, let's just close the session
+                                ServiceUtils.Close(db, efSession);
+                            }
+
                         }
                         else
                         {
                             //log error
-                            SessionUtils.Error(db, efSession, $"bad company file [{companyFilePath}] for company [{efSession.CompanyId}]");
+                            Error(db, efSession, $"Incorrect company file ({companyFilePath}) for company ({efSession.CompanyId})");
                         }
-                    }
-                    else
-                    {
-                        //bad tickets will recur in getLastError and be logged there
                     }
 
                 }
-
 
             }
 
@@ -127,49 +211,133 @@ namespace com.paralib.paraquick.qbwc
             return "";
         }
 
-        protected abstract bool IsCompanyFileValid(string ticket, string companyFilePath);
+        protected virtual bool IsCompanyFileValid(DbContext db, EfParaquickSession efSession, string companyFilePath)
+        {
+            //the default behavior is to always use the file that is currently open,
+            //but implmentations may want to do something different
+            return true;
+        }
+
+        protected virtual void OnRequest(DbContext db, List<EfParaquickMessage> efMessages, RqMsgSet rqMsgSet)
+        {
+
+        }
+
 
         protected override int OnResponseMessage(string ticket, string responseXml, HResult hResult)
         {
-            //TODO will the zero ticket ever appear here?
 
-            //TODO
-            //process responses & update entities based on response type
-            OnResponse();
+            //zerotickets should never be seen here, but if so, they will recur in getLastError and be logged there
+            if (ticket != ServiceUtils.ZeroTicket)
+            {
+                using (var db = ServiceUtils.CreateDbContext())
+                {
+                    EfParaquickSession efSession = ServiceUtils.FindSession(db, ticket);
 
-            //update status and report "%"
+                    //bad tickets will recur in getLastError and be logged there
+                    if (efSession != null)
+                    {
+                        //TODO deserialize response and process success/error
+                        //TODO update paraquick entities based on response type
 
-            //do we stop on errors here or keep going?
-            //do we send a -1 when we're really done?
+                        //TODO allow implementor to do something with response
+                        OnResponse(db, efSession);
 
+                        //TODO StopOnErrors? do we stop on errors here (return -1) or keep going?
+                        //report "%" - completed messages/total messages for session
+                        return 100;
+                    }
 
-            throw new NotImplementedException();
+                }
+            }
+
+            //error condition
+            return -1;
         }
 
-        protected abstract void OnResponse();
+        protected virtual void OnResponse(DbContext db, EfParaquickSession efSession)
+        {
+
+        }
 
         protected override string OnGetLastError(string ticket)
         {
-            //TODO will the zero ticket ever appear here?
+            string message;
+
+            if (ticket == ServiceUtils.ZeroTicket)
+            {
+                //note: we should never see the zero tickets, but we report it here
+                message = "Can't process zero ticket";
+                Error(message);
+            }
+            else
+            {
+                using (var db = ServiceUtils.CreateDbContext())
+                {
+                    EfParaquickSession efSession = ServiceUtils.FindSession(db, ticket);
+
+                    if (efSession != null)
+                    {
+                        //return response-level and ticket-level errors 
+                        //(no need to log them again)
+                        message = OnGetLastError(db, efSession);
+                    }
+                    else
+                    {
+                        //we report bad tickets here
+                        message = $"can't find ticket ({ticket})";
+                        Error(message);
+                    }
+                }
+            }
 
 
-            //TODO
-            Logger.Error("can't find ticket [{ticket}]");
+            return message;
+        }
 
-
-            //return response-level and ticket-level errors
-            return base.OnGetLastError(ticket);
+        protected virtual string OnGetLastError(DbContext db, EfParaquickSession efSession)
+        {
+            return ServiceUtils.FormatErrors(efSession);
         }
 
 
         protected override string OnCloseConnection(string ticket)
         {
-            //TODO will the zero ticket ever appear here?
+            //note: we should never see the zero ticket here either
+            //      but it's already been logged at this point
+            if (ticket != ServiceUtils.ZeroTicket)
+            {
+                using (var db = ServiceUtils.CreateDbContext())
+                {
+                    EfParaquickSession efSession = ServiceUtils.FindSession(db, ticket);
 
+                    //bad tickets have already been logged
+                    if (efSession != null)
+                    {
+                        //close session
+                        ServiceUtils.Close(db, efSession);
 
-            //TODO
-            //if we didn't stop on errors, do we notify user that errors occured?
-            return base.OnCloseConnection(ticket);
+                        //allow implementation to send custom message back to WC
+                        return OnGetCloseMessage(db, efSession);
+                    }
+                }
+            }
+
+            return $"Session closed for invalid ticket {ticket}";
+
+        }
+
+        protected virtual string OnGetCloseMessage(DbContext db, EfParaquickSession efSession)
+        {
+            //TODO StopOnErrors? if we didn't stop on errors, do we notify user that errors occured?
+            string message= $"Session closed.";
+
+            if (efSession.StatusId==(int)SessionStatuses.Error)
+            {
+                message += " Errors occurred.";
+            }
+
+            return message;
         }
 
     }

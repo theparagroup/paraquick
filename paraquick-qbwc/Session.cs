@@ -34,7 +34,7 @@ namespace com.paralib.paraquick.qbwc
 
         public void Save()
         {
-            using (DbContext db = new DbContext())
+            using (var db = ServiceUtils.CreateDbContext())
             {
                 EfParaquickSession efSession = new EfParaquickSession();
                 efSession.CompanyId = CompanyId;
@@ -48,15 +48,34 @@ namespace com.paralib.paraquick.qbwc
                 {
                     foreach (var msg in msgSet.Messages.OrderBy(r => r.Sequence))
                     {
-                        EfParaquickMessage efMessage = new EfParaquickMessage();
-                        efMessage.Session = efSession;
-                        efMessage.MessageSetSequence = msgSet.Sequence;
-                        efMessage.MessageSequence = msg.Sequence;
-                        efMessage.RequestId = msg.RequestId;
-                        efMessage.RequestDate = msg.RequestDate;
-                        efMessage.RequestMessageType = msg.RqMsg?.GetType()?.Name;
-                        efMessage.RequestXml = msg.RqMsg.Serialize();
-                        db.ParaquickMessages.Add(efMessage);
+                        if (msg.RqMsg!=null)
+                        {
+                            string rqTypeName = msg.RqMsg.GetType().Name;
+                            var efMessageType= (from mt in db.ParaquickMessageTypes where mt.RequestTypeName == rqTypeName select mt).FirstOrDefault();
+
+                            if (efMessageType!=null)
+                            {
+                                EfParaquickMessage efMessage = new EfParaquickMessage();
+                                efMessage.Session = efSession;
+                                efMessage.MessageSetSequence = msgSet.Sequence;
+                                efMessage.MessageSequence = msg.Sequence;
+                                efMessage.RequestId = msg.RequestId;
+                                efMessage.RequestDate = msg.RequestDate;
+                                efMessage.RequestMessageType = efMessageType;
+                                efMessage.RequestXml = msg.RqMsg.Serialize();
+                                db.ParaquickMessages.Add(efMessage);
+
+                            }
+                            else
+                            {
+                                throw new InvalidOperationException($"RqMsg type not found ({rqTypeName})");
+                            }
+
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException("RqMsg must have a value");
+                        }
                     }
                 }
 

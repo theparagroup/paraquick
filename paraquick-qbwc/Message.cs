@@ -30,12 +30,12 @@ namespace com.paralib.paraquick.qbwc
             Id = efMessage.Id;
             Sequence = efMessage.MessageSequence;
             RequestDate = efMessage.RequestDate;
-            RqMsg = (IRqMsg) Msg.Deserialize(System.Type.GetType($"com.paralib.paraquick.qbxml.{efMessage.RequestMessageType},paraquick-qbxml"), efMessage.RequestXml);
+            RqMsg = (IRqMsg)Msg.Deserialize(efMessage.RequestMessageType.RequestTypeName, efMessage.RequestXml);
             RequestId = RqMsg.requestID;
 
-            //todo reponse stuff
 
         }
+
 
     }
 }

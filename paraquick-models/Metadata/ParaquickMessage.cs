@@ -39,10 +39,15 @@ namespace com.paralib.paraquick.Models.Metadata
 		[ParaType(ParaTypes.Int32)]
 		public object MessageSequence;
 
-		[Display(Name="Request Message Type")]
-		[Required(ErrorMessage="Request Message Type is required")]
-		[ParaType(ParaTypes.Text)]
-		public object RequestMessageType;
+		[Display(Name="Request Message Type Id")]
+		[Required(ErrorMessage="Request Message Type Id is required")]
+		[ParaType(ParaTypes.Key)]
+		public object RequestMessageTypeId;
+
+		[Display(Name="Application Entity Id")]
+		[Required(ErrorMessage="Application Entity Id is required")]
+		[ParaType(ParaTypes.Int32)]
+		public object ApplicationEntityId;
 
 		[Display(Name="Request Id")]
 		[Required(ErrorMessage="Request Id is required")]
@@ -51,7 +56,7 @@ namespace com.paralib.paraquick.Models.Metadata
 
 		[Display(Name="Request Xml")]
 		[Required(ErrorMessage="Request Xml is required")]
-		[ParaType(ParaTypes.LongText)]
+		[ParaType(ParaTypes.MaxText)]
 		public object RequestXml;
 
 		[Display(Name="Request Date")]
@@ -60,7 +65,7 @@ namespace com.paralib.paraquick.Models.Metadata
 		public object RequestDate;
 
 		[Display(Name="Response Xml")]
-		[ParaType(ParaTypes.LongText)]
+		[ParaType(ParaTypes.MaxText)]
 		public object ResponseXml;
 
 		[Display(Name="Response Date")]
@@ -76,7 +81,7 @@ namespace com.paralib.paraquick.Models.Metadata
 		public object StatusSeverity;
 
 		[Display(Name="Status Message")]
-		[ParaType(ParaTypes.LongText)]
+		[ParaType(ParaTypes.MaxText)]
 		public object StatusMessage;
 	}
 }

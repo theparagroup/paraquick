@@ -8,9 +8,10 @@ namespace com.paralib.paraquick.qbwc
 {
     public enum SessionStatuses : int
     {
-        New=1,
-        Processing=2,
-        Success=3,
-        Error=4
+        New = 1,
+        Open = 2,
+        Incomplete = 3,
+        Success = 4,
+        Error = 5
     }
 }

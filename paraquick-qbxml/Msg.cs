@@ -41,12 +41,13 @@ namespace com.paralib.paraquick.qbxml
             }
         }
 
-        public static Msg Deserialize(System.Type type, string xml)
+        public static Msg Deserialize(string messageType, string xml)
         {
+            //System.Type.GetType($"com.paralib.paraquick.qbxml.{messageType},paraquick-qbxml")
+
+            System.Type type = System.Type.GetType($"com.paralib.paraquick.qbxml.{messageType}");
             var st = (Msg)Activator.CreateInstance(type);
-
             var ser = st.GetSerializer();
-
 
             using (StringReader sr = new StringReader(xml))
             {

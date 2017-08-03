@@ -29,11 +29,6 @@ namespace com.paralib.paraquick.Models.Metadata
 		[ParaType(ParaTypes.Name)]
 		public object Name;
 
-		[Display(Name="Path")]
-		[Required(ErrorMessage="Path is required")]
-		[ParaType(ParaTypes.Path)]
-		public object Path;
-
 		[Display(Name="User Name")]
 		[Required(ErrorMessage="User Name is required")]
 		[ParaType(ParaTypes.Name)]
@@ -43,5 +38,21 @@ namespace com.paralib.paraquick.Models.Metadata
 		[Required(ErrorMessage="Password is required")]
 		[ParaType(ParaTypes.Name)]
 		public object Password;
+
+		[Display(Name="Hcp Xml")]
+		[ParaType(ParaTypes.MaxText)]
+		public object HcpXml;
+
+		[Display(Name="Country")]
+		[ParaType(ParaTypes.Name)]
+		public object Country;
+
+		[Display(Name="Major")]
+		[ParaType(ParaTypes.Int32)]
+		public object Major;
+
+		[Display(Name="Minor")]
+		[ParaType(ParaTypes.Int32)]
+		public object Minor;
 	}
 }
