@@ -12,14 +12,16 @@ namespace com.paralib.paraquick.qbwc
     {
         public int? Id { protected set; get; }
         public int Sequence { protected set; get; }
+        public int ApplicationEntityId { protected set; get; }
         public string RequestId { protected set; get; }
         public DateTime RequestDate { protected set; get; }
         public IRqMsg RqMsg { protected set; get; }
         public IRsMsg RsMsg { protected set; get; }
 
-        public Message(int sequence, IRqMsg rqMsg)
+        public Message(int sequence, int applicationEntityId, IRqMsg rqMsg)
         {
             Sequence = sequence;
+            ApplicationEntityId = applicationEntityId;
             RequestDate = DateTime.Now;
             RqMsg = rqMsg;
             RequestId = rqMsg.requestID;
@@ -29,11 +31,10 @@ namespace com.paralib.paraquick.qbwc
         {
             Id = efMessage.Id;
             Sequence = efMessage.MessageSequence;
+            ApplicationEntityId = efMessage.ApplicationEntityId;
             RequestDate = efMessage.RequestDate;
-            RqMsg = (IRqMsg)Msg.Deserialize(efMessage.RequestMessageType.RequestTypeName, efMessage.RequestXml);
+            RqMsg = (IRqMsg)Msg.Deserialize(efMessage.MessageType.RequestTypeName, efMessage.RequestXml);
             RequestId = RqMsg.requestID;
-
-
         }
 
 

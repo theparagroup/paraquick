@@ -7,7 +7,7 @@ namespace com.paralib.paraquick.Models.Ef
 {
 	public partial class EfParaquickMessageType:ParaquickMessageType
 	{
-		[InverseProperty("RequestMessageType")]
+		[InverseProperty("MessageType")]
 		public virtual List<EfParaquickMessage> ParaquickMessages { get; set;}
 	}
 }

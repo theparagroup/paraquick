@@ -39,10 +39,10 @@ namespace com.paralib.paraquick.Models.Metadata
 		[ParaType(ParaTypes.Int32)]
 		public object MessageSequence;
 
-		[Display(Name="Request Message Type Id")]
-		[Required(ErrorMessage="Request Message Type Id is required")]
+		[Display(Name="Message Type Id")]
+		[Required(ErrorMessage="Message Type Id is required")]
 		[ParaType(ParaTypes.Key)]
-		public object RequestMessageTypeId;
+		public object MessageTypeId;
 
 		[Display(Name="Application Entity Id")]
 		[Required(ErrorMessage="Application Entity Id is required")]
@@ -73,7 +73,7 @@ namespace com.paralib.paraquick.Models.Metadata
 		public object ResponseDate;
 
 		[Display(Name="Status Code")]
-		[ParaType(ParaTypes.Int32)]
+		[ParaType(ParaTypes.Text)]
 		public object StatusCode;
 
 		[Display(Name="Status Severity")]

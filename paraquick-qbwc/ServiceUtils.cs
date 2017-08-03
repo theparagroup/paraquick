@@ -75,10 +75,29 @@ namespace com.paralib.paraquick.qbwc
             db.SaveChanges();
         }
 
-        internal static void Response()
+        internal static void Response(DbContext db, EfParaquickMessage efMessage, IRsMsg rsMsg)
         {
-            //TODO update message with response
+            //update message with response
+            efMessage.ResponseDate = DateTime.Now;
+            efMessage.ResponseXml = rsMsg.Serialize();
+            efMessage.StatusCode = rsMsg.statusCode;
+            efMessage.StatusSeverity = rsMsg.statusSeverity;
+            efMessage.StatusMessage = rsMsg.statusMessage;
+            db.SaveChanges();
         }
+
+        internal static int CalculatePercentComplete(DbContext db, EfParaquickSession efSession)
+        {
+            int total = efSession.ParaquickMessages.Count;
+            int complete = efSession.ParaquickMessages.Where(m => m.ResponseDate != null).ToList().Count;
+
+            if (total == complete) return 100;
+
+            return (int) ((complete*100f)/(total*100f));
+
+        }
+
+
 
         internal static void Error(DbContext db, EfParaquickSession efSession, string message)
         {
@@ -104,7 +123,7 @@ namespace com.paralib.paraquick.qbwc
             {
                 efSession.StatusId = (int)SessionStatuses.Error;
             }
-            else if (efSession.ParaquickMessages.Where(m => (m.StatusCode ?? 0) != 0).Count() > 0)
+            else if (efSession.ParaquickMessages.Where(m => m.StatusCode != "0").Count() > 0)
             {
                 efSession.StatusId = (int)SessionStatuses.Error;
             }
@@ -131,7 +150,7 @@ namespace com.paralib.paraquick.qbwc
 
             foreach (var msg in efSession.ParaquickMessages)
             {
-                if ((msg.StatusCode ?? 0) != 0)
+                if (msg.StatusCode != "0")
                 {
                     message += $" [Request ({msg.Id}) : {msg.StatusCode} - {msg.StatusMessage}]";
                 }

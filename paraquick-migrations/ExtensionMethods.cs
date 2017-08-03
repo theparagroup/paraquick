@@ -24,22 +24,6 @@ namespace com.paralib.paraquick.Migrations
                 .WithColumn("major").AsParaType(ParaTypes.Int32).Nullable()
                 .WithColumn("minor").AsParaType(ParaTypes.Int32).Nullable();
 
-            Create.Table("paraquick_customers")
-                 .WithColumn("id").AsParaType(ParaTypes.Key).PrimaryKey().Identity()
-                 .WithColumn("company_id").AsParaType(ParaTypes.Key).ForeignKey("paraquick_companies", "id")
-                 .WithColumn("list_id").AsParaType(ParaTypes.Text).Nullable() //36
-                 .WithColumn("edit_sequence").AsParaType(ParaTypes.Text).Nullable() //16
-                 .WithColumn("create_date").AsParaType(ParaTypes.DateTime)
-                 .WithColumn("update_date").AsParaType(ParaTypes.DateTime).Nullable();
-
-            Create.Table("paraquick_estimates")
-                 .WithColumn("id").AsParaType(ParaTypes.Key).PrimaryKey().Identity()
-                 .WithColumn("company_id").AsParaType(ParaTypes.Key).ForeignKey("paraquick_companies", "id")
-                 .WithColumn("txn_id").AsParaType(ParaTypes.Text).Nullable() //36
-                 .WithColumn("edit_sequence").AsParaType(ParaTypes.Text).Nullable() //16
-                 .WithColumn("create_date").AsParaType(ParaTypes.DateTime)
-                 .WithColumn("update_date").AsParaType(ParaTypes.DateTime).Nullable();
-
             Create.Table("paraquick_session_statuses")
                 .WithColumn("id").AsParaType(ParaTypes.Key).PrimaryKey()
                 .WithColumn("name").AsParaType(ParaTypes.Name);
@@ -81,14 +65,14 @@ namespace com.paralib.paraquick.Migrations
                .WithColumn("session_id").AsParaType(ParaTypes.Key).ForeignKey("paraquick_sessions", "id")
                .WithColumn("message_set_sequence").AsParaType(ParaTypes.Int32)
                .WithColumn("message_sequence").AsParaType(ParaTypes.Int32)
-               .WithColumn("request_message_type_id").AsParaType(ParaTypes.Key).ForeignKey("paraquick_message_types", "id")
+               .WithColumn("message_type_id").AsParaType(ParaTypes.Key).ForeignKey("paraquick_message_types", "id")
                .WithColumn("application_entity_id").AsParaType(ParaTypes.Int32)
                .WithColumn("request_id").AsParaType(ParaTypes.Name)
                .WithColumn("request_xml").AsParaType(ParaTypes.MaxText)
                .WithColumn("request_date").AsParaType(ParaTypes.DateTime)
                .WithColumn("response_xml").AsParaType(ParaTypes.MaxText).Nullable()
                .WithColumn("response_date").AsParaType(ParaTypes.DateTime).Nullable()
-               .WithColumn("status_code").AsParaType(ParaTypes.Int32).Nullable()
+               .WithColumn("status_code").AsParaType(ParaTypes.Text).Nullable()
                .WithColumn("status_severity").AsParaType(ParaTypes.Text).Nullable()
                .WithColumn("status_message").AsParaType(ParaTypes.MaxText).Nullable();
 
@@ -107,8 +91,6 @@ namespace com.paralib.paraquick.Migrations
             Delete.Table("paraquick_session_errors");
             Delete.Table("paraquick_sessions");
             Delete.Table("paraquick_session_statuses");
-            Delete.Table("paraquick_estimates");
-            Delete.Table("paraquick_customers");
             Delete.Table("paraquick_companies");
 
         }

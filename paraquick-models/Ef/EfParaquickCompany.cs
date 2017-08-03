@@ -8,10 +8,6 @@ namespace com.paralib.paraquick.Models.Ef
 	public partial class EfParaquickCompany:ParaquickCompany
 	{
 		[InverseProperty("Company")]
-		public virtual List<EfParaquickCustomer> ParaquickCustomers { get; set;}
-		[InverseProperty("Company")]
-		public virtual List<EfParaquickEstimate> ParaquickEstimates { get; set;}
-		[InverseProperty("Company")]
 		public virtual List<EfParaquickSession> ParaquickSessions { get; set;}
 	}
 }

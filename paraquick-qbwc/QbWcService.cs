@@ -166,12 +166,13 @@ namespace com.paralib.paraquick.qbwc
 
                             if (efMessages!=null)
                             {
+                                //TODO do we set OnError to stopOnErrors in the request?
                                 RqMsgSet rqMsgSet = new RqMsgSet();
 
                                 foreach (var efMessage in efMessages)
                                 {
                                     //deserialize request message
-                                    IRqMsg rqMsg = (IRqMsg)Msg.Deserialize(efMessage.RequestMessageType.RequestTypeName, efMessage.RequestXml);
+                                    IRqMsg rqMsg = (IRqMsg)Msg.Deserialize(efMessage.MessageType.RequestTypeName, efMessage.RequestXml);
 
                                     //add it to message set
                                     rqMsgSet.Add(rqMsg);
@@ -237,15 +238,40 @@ namespace com.paralib.paraquick.qbwc
                     //bad tickets will recur in getLastError and be logged there
                     if (efSession != null)
                     {
-                        //TODO deserialize response and process success/error
-                        //TODO update paraquick entities based on response type
+                        //deserialize response and process success/error
+                        RsMsgSet rsMsgSet = new RsMsgSet();
+                        QBXML qbxml=rsMsgSet.Deserialize(responseXml);
 
-                        //TODO allow implementor to do something with response
-                        OnResponse(db, efSession);
+                        //TODO update paraquick entities based on response type
+                        foreach (var rsMsg in rsMsgSet)
+                        {
+                            var efMessage = efSession.ParaquickMessages.Where(m => m.RequestId == rsMsg.requestID).FirstOrDefault();
+
+                            if (efMessage != null)
+                            {
+                                ServiceUtils.Response(db, efMessage, rsMsg);
+
+                                //allow implementor to do something with response
+                                OnResponse(db, efMessage, rsMsg);
+
+                                if (rsMsg.statusCode != "0")
+                                {
+                                    //TODO stop on errors?
+                                }
+
+                            }
+                            else
+                            {
+                                //TODO stop on errors?
+                                Error(db, efSession, $"Can't find request ({rsMsg.requestID})");
+                            }
+
+                        }
+
 
                         //TODO StopOnErrors? do we stop on errors here (return -1) or keep going?
                         //report "%" - completed messages/total messages for session
-                        return 100;
+                        return ServiceUtils.CalculatePercentComplete(db, efSession);
                     }
 
                 }
@@ -255,7 +281,7 @@ namespace com.paralib.paraquick.qbwc
             return -1;
         }
 
-        protected virtual void OnResponse(DbContext db, EfParaquickSession efSession)
+        protected virtual void OnResponse(DbContext db, EfParaquickMessage efMessage, IRsMsg rsMsg)
         {
 
         }

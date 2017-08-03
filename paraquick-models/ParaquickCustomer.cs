@@ -8,7 +8,8 @@ namespace com.paralib.paraquick.Models
 		public int CompanyId { get; set;}
 		public string ListId { get; set;}
 		public string EditSequence { get; set;}
-		public DateTime CreateDate { get; set;}
+		public DateTime QueueDate { get; set;}
+		public DateTime? CreateDate { get; set;}
 		public DateTime? UpdateDate { get; set;}
 	}
 }

@@ -59,9 +59,10 @@ namespace com.paralib.paraquick.qbwc
                                 efMessage.Session = efSession;
                                 efMessage.MessageSetSequence = msgSet.Sequence;
                                 efMessage.MessageSequence = msg.Sequence;
+                                efMessage.ApplicationEntityId = msg.ApplicationEntityId;
                                 efMessage.RequestId = msg.RequestId;
                                 efMessage.RequestDate = msg.RequestDate;
-                                efMessage.RequestMessageType = efMessageType;
+                                efMessage.MessageType = efMessageType;
                                 efMessage.RequestXml = msg.RqMsg.Serialize();
                                 db.ParaquickMessages.Add(efMessage);
 

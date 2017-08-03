@@ -25,9 +25,9 @@ namespace com.paralib.paraquick.qbwc
             Sequence = efMessage.MessageSetSequence;
         }
 
-        public Message NewMessage(int sequence, IRqMsg rqMsg)
+        public Message NewMessage(int sequence, int applicationEntityId, IRqMsg rqMsg)
         {
-            Message message = new Message(sequence, rqMsg);
+            Message message = new Message(sequence, applicationEntityId, rqMsg);
             _messages.Add(message);
             return message;
         }

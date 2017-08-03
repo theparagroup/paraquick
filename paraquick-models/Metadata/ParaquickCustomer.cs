@@ -37,8 +37,12 @@ namespace com.paralib.paraquick.Models.Metadata
 		[ParaType(ParaTypes.Text)]
 		public object EditSequence;
 
+		[Display(Name="Queue Date")]
+		[Required(ErrorMessage="Queue Date is required")]
+		[ParaType(ParaTypes.DateTime)]
+		public object QueueDate;
+
 		[Display(Name="Create Date")]
-		[Required(ErrorMessage="Create Date is required")]
 		[ParaType(ParaTypes.DateTime)]
 		public object CreateDate;
 
