@@ -174,14 +174,22 @@ namespace com.paralib.paraquick.qbwc
                                     //deserialize request message
                                     IRqMsg rqMsg = (IRqMsg)Msg.Deserialize(efMessage.MessageType.RequestTypeName, efMessage.RequestXml);
 
-                                    //add it to message set
-                                    rqMsgSet.Add(rqMsg);
+                                    //allow implementation to see/modify message
+                                    string errorMessage = OnRequest(db, efMessage, rqMsg);
+                                    if (errorMessage == null)
+                                    {
+                                        //add it to message set
+                                        rqMsgSet.Add(rqMsg);
+                                    }
+                                    else
+                                    {
+                                        //"close" this request, don't send to WC
+                                        ServiceUtils.RequestError(db, efMessage, errorMessage);
+                                    }
+
                                 }
 
                                 //TODO is "nothing to do" at this point an error?
-
-                                //allow implementation to see request
-                                OnRequest(db, efMessages, rqMsgSet);
 
                                 //send it
                                 string xml = rqMsgSet.Serialize();
@@ -219,11 +227,11 @@ namespace com.paralib.paraquick.qbwc
             return true;
         }
 
-        protected virtual void OnRequest(DbContext db, List<EfParaquickMessage> efMessages, RqMsgSet rqMsgSet)
+        protected virtual string OnRequest(DbContext db, EfParaquickMessage efMessage, IRqMsg rqMsg)
         {
-
+            //nothing wrong, proceed
+            return null;
         }
-
 
         protected override int OnResponseMessage(string ticket, string responseXml, HResult hResult)
         {
@@ -271,7 +279,8 @@ namespace com.paralib.paraquick.qbwc
 
                         //TODO StopOnErrors? do we stop on errors here (return -1) or keep going?
                         //report "%" - completed messages/total messages for session
-                        return ServiceUtils.CalculatePercentComplete(db, efSession);
+                        int pctComplete= ServiceUtils.CalculatePercentComplete(db, efSession);
+                        return pctComplete;
                     }
 
                 }

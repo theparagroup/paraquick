@@ -42,10 +42,19 @@ namespace com.paralib.paraquick.qbwc
         internal static List<EfParaquickMessage> FindNextMessageSet(DbContext db, EfParaquickSession efSession)
         {
             //Find the next messageset sequence for this session (we go by ResponseDate) - can be null
-            var messageSetSequence= (from msg in db.ParaquickMessages where msg.SessionId == efSession.Id && msg.ResponseDate==null orderby msg.MessageSetSequence, msg.MessageSequence select msg.MessageSetSequence).FirstOrDefault();
+            int? messageSetSequence = efSession.ParaquickMessages.Where(m => m.ResponseDate == null).OrderBy(m => m.MessageSetSequence).ThenBy(m => m.MessageSequence).FirstOrDefault()?.MessageSetSequence;
 
             //get the messages for the set - can be empty list
-            var efMessages=(from msg in db.ParaquickMessages where msg.MessageSetSequence==messageSetSequence orderby msg.MessageSetSequence, msg.MessageSequence select msg).ToList();
+            var efMessages = efSession.ParaquickMessages.Where(m => m.MessageSetSequence == messageSetSequence).OrderBy(m => m.MessageSetSequence).ThenBy(m => m.MessageSequence).ToList();
+
+
+            //OLD
+
+            //Find the next messageset sequence for this session (we go by ResponseDate) - can be null
+            //var xmessageSetSequence= (from msg in db.ParaquickMessages where msg.SessionId == efSession.Id && msg.ResponseDate==null orderby msg.MessageSetSequence, msg.MessageSequence select msg.MessageSetSequence).First();
+
+            //get the messages for the set - can be empty list
+            //var efMessages=(from msg in db.ParaquickMessages where msg.MessageSetSequence==messageSetSequence orderby msg.MessageSetSequence, msg.MessageSequence select msg).ToList();
 
             //verify that the set has not been partially processed for some reason
             foreach (var efMessage in efMessages)
@@ -75,6 +84,15 @@ namespace com.paralib.paraquick.qbwc
             db.SaveChanges();
         }
 
+        internal static void RequestError(DbContext db, EfParaquickMessage efMessage, string errorMessage)
+        {
+            //update message with non-Qb (application defined) error
+            efMessage.ResponseDate = DateTime.Now;
+            efMessage.StatusCode = "-1";
+            efMessage.StatusMessage = errorMessage;
+            db.SaveChanges();
+        }
+
         internal static void Response(DbContext db, EfParaquickMessage efMessage, IRsMsg rsMsg)
         {
             //update message with response
@@ -86,15 +104,37 @@ namespace com.paralib.paraquick.qbwc
             db.SaveChanges();
         }
 
+
         internal static int CalculatePercentComplete(DbContext db, EfParaquickSession efSession)
         {
-            int total = efSession.ParaquickMessages.Count;
             int complete = efSession.ParaquickMessages.Where(m => m.ResponseDate != null).ToList().Count;
+            int total = efSession.ParaquickMessages.Count;
+            int pctComplete;
 
-            if (total == complete) return 100;
+            if (complete == total)
+            {
+                pctComplete = 100;
+            }
+            else
+            {
+                var fPc = ((float)complete) / total;
+                pctComplete = (int)(fPc * 100);
 
-            return (int) ((complete*100f)/(total*100f));
+                //excessive but certain
+                if (pctComplete <= 0)
+                {
+                    pctComplete = 1;
+                }
 
+                //excessive but certain
+                if (pctComplete >= 100)
+                {
+                    pctComplete = 99;
+                }
+
+            }
+
+            return pctComplete;
         }
 
 

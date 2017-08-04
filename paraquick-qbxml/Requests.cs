@@ -18,6 +18,14 @@ namespace com.paralib.paraquick.qbxml
         }
     }
 
+    public partial class CustomerQueryRqType : Msg, IRqMsg
+    {
+        protected override XmlSerializer GetSerializer()
+        {
+            return new CustomerQueryRqTypeSerializer();
+        }
+    }
+
     public partial class CustomerModRqType : Msg, IRqMsg
     {
         protected override XmlSerializer GetSerializer()
@@ -31,6 +39,14 @@ namespace com.paralib.paraquick.qbxml
         protected override XmlSerializer GetSerializer()
         {
             return new EstimateAddRqTypeSerializer();
+        }
+    }
+
+    public partial class EstimateQueryRqType : Msg, IRqMsg
+    {
+        protected override XmlSerializer GetSerializer()
+        {
+            return new EstimateQueryRqTypeSerializer();
         }
     }
 

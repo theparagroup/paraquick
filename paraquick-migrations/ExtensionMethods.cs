@@ -37,7 +37,7 @@ namespace com.paralib.paraquick.Migrations
             Create.Table("paraquick_sessions")
                 .WithColumn("id").AsParaType(ParaTypes.Key).PrimaryKey().Identity()
                 .WithColumn("company_id").AsParaType(ParaTypes.Key).ForeignKey("paraquick_companies", "id")
-                .WithColumn("ticket").AsParaType(ParaTypes.Name)
+                .WithColumn("ticket").AsParaType(ParaTypes.Name).Unique()
                 .WithColumn("create_date").AsParaType(ParaTypes.DateTime)
                 .WithColumn("start_date").AsParaType(ParaTypes.DateTime).Nullable()
                 .WithColumn("end_date").AsParaType(ParaTypes.DateTime).Nullable()
@@ -56,8 +56,10 @@ namespace com.paralib.paraquick.Migrations
                 .WithColumn("response_type_name").AsParaType(ParaTypes.Name);
 
             migration.Insert.IntoTable("paraquick_message_types").Row(new { name = "CustomerAdd", request_type_name= "CustomerAddRqType", response_type_name= "CustomerAddRsType" });
+            migration.Insert.IntoTable("paraquick_message_types").Row(new { name = "CustomerQuery", request_type_name = "CustomerQueryRqType", response_type_name = "CustomerQueryRsType" });
             migration.Insert.IntoTable("paraquick_message_types").Row(new { name = "CustomerMod", request_type_name = "CustomerModRqType", response_type_name = "CustomerModRsType" });
             migration.Insert.IntoTable("paraquick_message_types").Row(new { name = "EstimateAdd", request_type_name = "EstimateAddRqType", response_type_name = "EstimateAddRsType" });
+            migration.Insert.IntoTable("paraquick_message_types").Row(new { name = "EstimateQuery", request_type_name = "EstimateQueryRqType", response_type_name = "EstimateQueryRsType" });
             migration.Insert.IntoTable("paraquick_message_types").Row(new { name = "EstimateMod", request_type_name = "EstimateModRqType", response_type_name = "EstimateModRsType" });
 
             Create.Table("paraquick_messages")
@@ -79,7 +81,8 @@ namespace com.paralib.paraquick.Migrations
             Create.Index("uidx_paraquick_messages").OnTable("paraquick_messages")
                 .OnColumn("session_id").Unique()
                 .OnColumn("message_set_sequence").Unique()
-                .OnColumn("message_sequence").Unique();
+                .OnColumn("message_sequence").Unique()
+                .OnColumn("request_id").Unique();
 
 
         }
