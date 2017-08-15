@@ -24,6 +24,7 @@ namespace com.paralib.paraquick.Models.Metadata
 		[ParaType(ParaTypes.Key)]
 		public object Id;
 
+		[ForeignKey("Company")]
 		[Display(Name="Company Id")]
 		[Required(ErrorMessage="Company Id is required")]
 		[ParaType(ParaTypes.Key)]
@@ -47,6 +48,7 @@ namespace com.paralib.paraquick.Models.Metadata
 		[ParaType(ParaTypes.DateTime)]
 		public object EndDate;
 
+		[ForeignKey("Status")]
 		[Display(Name="Status Id")]
 		[Required(ErrorMessage="Status Id is required")]
 		[ParaType(ParaTypes.Key)]

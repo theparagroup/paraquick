@@ -24,6 +24,7 @@ namespace com.paralib.paraquick.Models.Metadata
 		[ParaType(ParaTypes.Key)]
 		public object Id;
 
+		[ForeignKey("Session")]
 		[Display(Name="Session Id")]
 		[Required(ErrorMessage="Session Id is required")]
 		[ParaType(ParaTypes.Key)]
@@ -39,6 +40,7 @@ namespace com.paralib.paraquick.Models.Metadata
 		[ParaType(ParaTypes.Int32)]
 		public object MessageSequence;
 
+		[ForeignKey("MessageType")]
 		[Display(Name="Message Type Id")]
 		[Required(ErrorMessage="Message Type Id is required")]
 		[ParaType(ParaTypes.Key)]

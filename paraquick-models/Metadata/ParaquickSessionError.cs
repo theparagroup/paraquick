@@ -24,6 +24,7 @@ namespace com.paralib.paraquick.Models.Metadata
 		[ParaType(ParaTypes.Key)]
 		public object Id;
 
+		[ForeignKey("Session")]
 		[Display(Name="Session Id")]
 		[Required(ErrorMessage="Session Id is required")]
 		[ParaType(ParaTypes.Key)]

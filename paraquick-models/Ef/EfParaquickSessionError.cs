@@ -7,7 +7,6 @@ namespace com.paralib.paraquick.Models.Ef
 {
 	public partial class EfParaquickSessionError:ParaquickSessionError
 	{
-		[ForeignKey("SessionId")]
 		public virtual EfParaquickSession Session { get; set;}
 	}
 }
