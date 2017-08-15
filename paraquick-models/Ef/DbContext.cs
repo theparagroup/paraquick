@@ -26,10 +26,10 @@ namespace com.paralib.paraquick.Models.Ef
 		}
 
 		public DbSet<EfParaquickCompany> ParaquickCompanies { get; set; }
-		public DbSet<EfParaquickSessionStatus> ParaquickSessionStatuses { get; set; }
-		public DbSet<EfParaquickSession> ParaquickSessions { get; set; }
-		public DbSet<EfParaquickSessionError> ParaquickSessionErrors { get; set; }
 		public DbSet<EfParaquickMessageType> ParaquickMessageTypes { get; set; }
 		public DbSet<EfParaquickMessage> ParaquickMessages { get; set; }
+		public DbSet<EfParaquickSessionError> ParaquickSessionErrors { get; set; }
+		public DbSet<EfParaquickSessionStatus> ParaquickSessionStatuses { get; set; }
+		public DbSet<EfParaquickSession> ParaquickSessions { get; set; }
 	}
 }
