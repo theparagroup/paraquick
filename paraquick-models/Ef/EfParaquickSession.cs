@@ -9,6 +9,7 @@ namespace com.paralib.paraquick.Models.Ef
 	{
 		public virtual EfParaquickCompany Company { get; set;}
 		public virtual EfParaquickSessionStatus Status { get; set;}
+
 		[InverseProperty("Session")]
 		public virtual List<EfParaquickMessage> ParaquickMessages { get; set;}
 		[InverseProperty("Session")]
