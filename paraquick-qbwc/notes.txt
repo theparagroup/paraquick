@@ -22,6 +22,14 @@ must put this on service or WC errors
 	<mimeMap fileExtension=".qwc" mimeType="application/octet-stream" />
 </staticContent>
 
+--[to force remove web connector app]
+	To remove the problem QWC information, you will need to remove the keys from the registry for the Web Connector.
+
+		Registry Key: \HKEY_CURRENT_USER\Software\Intuit\QBWebConnector
+		Delete the key entry from under the Scheduler and SOAPWebServices
+
+	Deleting these keys will remove it from the Web Connector. Then you can go into QuickBooks and remove the app from the Integrated Preferences panel.
+
 
 --[sequences]
 	Main Sequence:
