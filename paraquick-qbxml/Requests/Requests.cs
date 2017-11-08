@@ -8,7 +8,20 @@ using com.paralib.paraquick.qbxml.Serializers;
 
 namespace com.paralib.paraquick.qbxml
 {
-   
+    public partial class CustomerAdd: ICustomer
+    {
+
+    }
+
+    public partial class CustomerMod : ICustomer
+    {
+
+    }
+
+    public partial class CustomerRet : ICustomer
+    {
+
+    }
 
     public partial class CustomerAddRqType : Msg, IRqMsg
     {
@@ -32,6 +45,21 @@ namespace com.paralib.paraquick.qbxml
         {
             return new CustomerModRqTypeSerializer();
         }
+    }
+
+    public partial class EstimateAdd: IEstimate
+    {
+
+    }
+
+    public partial class EstimateMod : IEstimate
+    {
+
+    }
+
+    public partial class EstimateRet : IEstimate
+    {
+
     }
 
     public partial class EstimateAddRqType : Msg, IRqMsg
