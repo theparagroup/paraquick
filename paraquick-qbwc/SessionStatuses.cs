@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace com.paralib.paraquick.qbwc
 {
-    public enum SessionStatuses : int
+    public enum SessionStatuses : long
     {
         New = 1,
         Open = 2,

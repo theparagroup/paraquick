@@ -18,7 +18,7 @@ namespace com.paralib.paraquick.Models.Metadata
 	public class ParaquickMessageMetadata
 	{
 
-		[Key, Column(Order = 0)]
+		[Key]
 		[Display(Name="Id")]
 		[Required(ErrorMessage="Id is required")]
 		[ParaType(ParaTypes.Key)]
@@ -48,12 +48,12 @@ namespace com.paralib.paraquick.Models.Metadata
 
 		[Display(Name="Application Entity Id")]
 		[Required(ErrorMessage="Application Entity Id is required")]
-		[ParaType(ParaTypes.Int32)]
+		[ParaType(ParaTypes.Key)]
 		public object ApplicationEntityId;
 
 		[Display(Name="Request Id")]
 		[Required(ErrorMessage="Request Id is required")]
-		[ParaType(ParaTypes.Name)]
+		[ParaType(ParaTypes.GuidString)]
 		public object RequestId;
 
 		[Display(Name="Request Xml")]
@@ -75,11 +75,11 @@ namespace com.paralib.paraquick.Models.Metadata
 		public object ResponseDate;
 
 		[Display(Name="Status Code")]
-		[ParaType(ParaTypes.Text)]
+		[ParaType(ParaTypes.Description)]
 		public object StatusCode;
 
 		[Display(Name="Status Severity")]
-		[ParaType(ParaTypes.Text)]
+		[ParaType(ParaTypes.Note)]
 		public object StatusSeverity;
 
 		[Display(Name="Status Message")]

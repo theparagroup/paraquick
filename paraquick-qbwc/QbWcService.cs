@@ -18,7 +18,7 @@ namespace com.paralib.paraquick.qbwc
         protected void Error(DbContext db, EfParaquickSession efSession, string message)
         {
             Error(message);
-            ServiceUtils.Error(db, efSession, message);
+            ServiceUtils.SessionError(db, efSession, message);
         }
 
         protected override string OnAuthenticate(string username, string password, out AuthCodes authCode, out AuthOptions authOptions)
@@ -153,13 +153,8 @@ namespace com.paralib.paraquick.qbwc
                             //save the hcpXml & other information in the company record
                             if (!string.IsNullOrEmpty(hcpXml))
                             {
-                                efSession.Company.HcpXml = hcpXml;
-                                efSession.Company.Country = qbCountry;
-                                efSession.Company.Major = qbMajorVersion;
-                                efSession.Company.Minor = qbMinorVersion;
-                                db.SaveChanges();
+                                ServiceUtils.Session(db, efSession, hcpXml, qbCountry, qbMajorVersion, qbMinorVersion);
                             }
-
 
                             //find next message for this ticket
                             List<EfParaquickMessage> efMessages = ServiceUtils.FindNextMessageSet(db, efSession);

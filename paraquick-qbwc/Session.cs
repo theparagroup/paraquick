@@ -12,12 +12,12 @@ namespace com.paralib.paraquick.qbwc
     {
         protected List<MessageSet> _messageSets { private set; get; } = new List<MessageSet>();
 
-        public int? Id { protected set; get; }
+        public long? Id { protected set; get; }
         public string Ticket { protected set; get; }
-        public int CompanyId { protected set; get; }
+        public long CompanyId { protected set; get; }
         public DateTime CreateDate { protected set; get; }
 
-        public Session(int companyId)
+        public Session(long companyId)
         {
             CompanyId = companyId;
             Ticket= Guid.NewGuid().ToString();
@@ -40,7 +40,10 @@ namespace com.paralib.paraquick.qbwc
                 efSession.CompanyId = CompanyId;
                 efSession.Ticket = Ticket;
                 efSession.CreateDate = CreateDate;
-                efSession.StatusId = (int)SessionStatuses.New;
+                efSession.StatusId = (long)SessionStatuses.New;
+
+                ServiceUtils.TruncateSession(efSession);
+
                 db.ParaquickSessions.Add(efSession);
 
                 //add  requests
@@ -64,6 +67,9 @@ namespace com.paralib.paraquick.qbwc
                                 efMessage.RequestDate = msg.RequestDate;
                                 efMessage.MessageType = efMessageType;
                                 efMessage.RequestXml = msg.RqMsg.Serialize();
+
+                                ServiceUtils.TruncateMessage(efMessage);
+
                                 db.ParaquickMessages.Add(efMessage);
 
                             }

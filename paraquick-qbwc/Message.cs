@@ -10,15 +10,15 @@ namespace com.paralib.paraquick.qbwc
 {
     public class Message
     {
-        public int? Id { protected set; get; }
+        public long? Id { protected set; get; }
         public int Sequence { protected set; get; }
-        public int ApplicationEntityId { protected set; get; }
+        public long ApplicationEntityId { protected set; get; }
         public string RequestId { protected set; get; }
         public DateTime RequestDate { protected set; get; }
         public IRqMsg RqMsg { protected set; get; }
         public IRsMsg RsMsg { protected set; get; }
 
-        public Message(int sequence, int applicationEntityId, IRqMsg rqMsg)
+        public Message(int sequence, long applicationEntityId, IRqMsg rqMsg)
         {
             Sequence = sequence;
             ApplicationEntityId = applicationEntityId;

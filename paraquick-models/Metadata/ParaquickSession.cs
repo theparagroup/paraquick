@@ -18,7 +18,7 @@ namespace com.paralib.paraquick.Models.Metadata
 	public class ParaquickSessionMetadata
 	{
 
-		[Key, Column(Order = 0)]
+		[Key]
 		[Display(Name="Id")]
 		[Required(ErrorMessage="Id is required")]
 		[ParaType(ParaTypes.Key)]
@@ -32,7 +32,7 @@ namespace com.paralib.paraquick.Models.Metadata
 
 		[Display(Name="Ticket")]
 		[Required(ErrorMessage="Ticket is required")]
-		[ParaType(ParaTypes.Name)]
+		[ParaType(ParaTypes.GuidString)]
 		public object Ticket;
 
 		[Display(Name="Create Date")]

@@ -18,7 +18,7 @@ namespace com.paralib.paraquick.Models.Metadata
 	public class ParaquickSessionErrorMetadata
 	{
 
-		[Key, Column(Order = 0)]
+		[Key]
 		[Display(Name="Id")]
 		[Required(ErrorMessage="Id is required")]
 		[ParaType(ParaTypes.Key)]

@@ -4,7 +4,7 @@ namespace com.paralib.paraquick.Models
 {
 	public partial class ParaquickSessionStatus
 	{
-		public int Id { get; set;}
+		public long Id { get; set;}
 		public string Name { get; set;}
 	}
 }
