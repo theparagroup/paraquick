@@ -40,7 +40,7 @@ namespace com.paralib.paraquick.Models.Metadata
 		public object Password;
 
 		[Display(Name="Hcp Xml")]
-		[ParaType(ParaTypes.MaxText)]
+		[ParaType(ParaTypes.Max)]
 		public object HcpXml;
 
 		[Display(Name="Country")]

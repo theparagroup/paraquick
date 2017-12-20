@@ -19,7 +19,7 @@ namespace com.paralib.paraquick.Migrations
                 .WithColumn("name").AsParaType(ParaTypes.Name)
                 .WithColumn("user_name").AsParaType(ParaTypes.Name).Unique()
                 .WithColumn("password").AsParaType(ParaTypes.Name)
-                .WithColumn("hcp_xml").AsParaType(ParaTypes.MaxText).Nullable()
+                .WithColumn("hcp_xml").AsParaType(ParaTypes.Max).Nullable()
                 .WithColumn("country").AsParaType(ParaTypes.Name).Nullable()
                 .WithColumn("major").AsParaType(ParaTypes.Int32).Nullable()
                 .WithColumn("minor").AsParaType(ParaTypes.Int32).Nullable();
@@ -70,13 +70,13 @@ namespace com.paralib.paraquick.Migrations
                .WithColumn("message_type_id").AsParaType(ParaTypes.Key).ForeignKey("paraquick_message_types", "id")
                .WithColumn("application_entity_id").AsParaType(ParaTypes.Key)
                .WithColumn("request_id").AsParaType(ParaTypes.GuidString)
-               .WithColumn("request_xml").AsParaType(ParaTypes.MaxText)
+               .WithColumn("request_xml").AsParaType(ParaTypes.Max)
                .WithColumn("request_date").AsParaType(ParaTypes.DateTime)
-               .WithColumn("response_xml").AsParaType(ParaTypes.MaxText).Nullable()
+               .WithColumn("response_xml").AsParaType(ParaTypes.Max).Nullable()
                .WithColumn("response_date").AsParaType(ParaTypes.DateTime).Nullable()
                .WithColumn("status_code").AsParaType(ParaTypes.Description).Nullable()
                .WithColumn("status_severity").AsParaType(ParaTypes.Note).Nullable()
-               .WithColumn("status_message").AsParaType(ParaTypes.MaxText).Nullable();
+               .WithColumn("status_message").AsParaType(ParaTypes.LongText).Nullable();
 
             Create.Index("uidx_paraquick_messages").OnTable("paraquick_messages")
                 .OnColumn("session_id").Unique()

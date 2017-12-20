@@ -58,7 +58,7 @@ namespace com.paralib.paraquick.Models.Metadata
 
 		[Display(Name="Request Xml")]
 		[Required(ErrorMessage="Request Xml is required")]
-		[ParaType(ParaTypes.MaxText)]
+		[ParaType(ParaTypes.Max)]
 		public object RequestXml;
 
 		[Display(Name="Request Date")]
@@ -67,7 +67,7 @@ namespace com.paralib.paraquick.Models.Metadata
 		public object RequestDate;
 
 		[Display(Name="Response Xml")]
-		[ParaType(ParaTypes.MaxText)]
+		[ParaType(ParaTypes.Max)]
 		public object ResponseXml;
 
 		[Display(Name="Response Date")]
@@ -83,7 +83,7 @@ namespace com.paralib.paraquick.Models.Metadata
 		public object StatusSeverity;
 
 		[Display(Name="Status Message")]
-		[ParaType(ParaTypes.MaxText)]
+		[ParaType(ParaTypes.LongText)]
 		public object StatusMessage;
 	}
 }
