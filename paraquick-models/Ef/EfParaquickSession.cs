@@ -12,6 +12,7 @@ namespace com.paralib.paraquick.Models.Ef
 
 		[InverseProperty("Session")]
 		public virtual List<EfParaquickMessage> ParaquickMessages { get; set;}
+
 		[InverseProperty("Session")]
 		public virtual List<EfParaquickSessionError> ParaquickSessionErrors { get; set;}
 	}
