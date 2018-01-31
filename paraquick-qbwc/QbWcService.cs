@@ -241,41 +241,50 @@ namespace com.paralib.paraquick.qbwc
                     //bad tickets will recur in getLastError and be logged there
                     if (efSession != null)
                     {
-                        //deserialize response and process success/error
-                        RsMsgSet rsMsgSet = new RsMsgSet();
-                        QBXML qbxml=rsMsgSet.Deserialize(responseXml);
-
-                        //TODO update paraquick entities based on response type
-                        foreach (var rsMsg in rsMsgSet)
+                        //COM error?
+                        if (hResult == null)
                         {
-                            var efMessage = efSession.ParaquickMessages.Where(m => m.RequestId == rsMsg.requestID).FirstOrDefault();
 
-                            if (efMessage != null)
+                            //deserialize response and process success/error
+                            RsMsgSet rsMsgSet = new RsMsgSet();
+                            QBXML qbxml = rsMsgSet.Deserialize(responseXml);
+
+                            //TODO update paraquick entities based on response type
+                            foreach (var rsMsg in rsMsgSet)
                             {
-                                ServiceUtils.Response(db, efMessage, rsMsg);
+                                var efMessage = efSession.ParaquickMessages.Where(m => m.RequestId == rsMsg.requestID).FirstOrDefault();
 
-                                //allow implementor to do something with response
-                                OnResponse(db, efMessage, rsMsg);
+                                if (efMessage != null)
+                                {
+                                    ServiceUtils.Response(db, efMessage, rsMsg);
 
-                                if (rsMsg.statusCode != "0")
+                                    //allow implementor to do something with response
+                                    OnResponse(db, efMessage, rsMsg);
+
+                                    if (rsMsg.statusCode != "0")
+                                    {
+                                        //TODO stop on errors?
+                                    }
+
+                                }
+                                else
                                 {
                                     //TODO stop on errors?
+                                    Error(db, efSession, $"Can't find request ({rsMsg.requestID})");
                                 }
 
                             }
-                            else
-                            {
-                                //TODO stop on errors?
-                                Error(db, efSession, $"Can't find request ({rsMsg.requestID})");
-                            }
 
+
+                            //TODO StopOnErrors? do we stop on errors here (return -1) or keep going?
+                            //report "%" - completed messages/total messages for session
+                            int pctComplete = ServiceUtils.CalculatePercentComplete(db, efSession);
+                            return pctComplete;
                         }
-
-
-                        //TODO StopOnErrors? do we stop on errors here (return -1) or keep going?
-                        //report "%" - completed messages/total messages for session
-                        int pctComplete= ServiceUtils.CalculatePercentComplete(db, efSession);
-                        return pctComplete;
+                        else
+                        {
+                            Error(db, efSession, $"COM Error {hResult.Format()}");
+                        }
                     }
 
                 }
