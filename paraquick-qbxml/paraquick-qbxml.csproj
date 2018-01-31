@@ -73,6 +73,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Messages.cd" />
     <None Include="Schemas\qbxml130.xsd">
       <SubType>Designer</SubType>
     </None>

@@ -24,7 +24,7 @@ namespace com.paralib.paraquick.qbxml
             {
                 Indent = true,
                 OmitXmlDeclaration = false,
-                Encoding = Encoding.UTF8
+                Encoding = Encoding.ASCII
             };
 
 
