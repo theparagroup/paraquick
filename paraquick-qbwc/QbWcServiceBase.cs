@@ -30,9 +30,15 @@ namespace com.paralib.paraquick.qbwc
     {
         protected ILog Logger { private set; get;  } = Paralib.GetLogger(typeof(QbWcServiceBase));
 
+        protected virtual void OnFatal(Exception ex)
+        {
+
+        }
+
         protected void Fatal(Exception ex)
         {
             Logger.Fatal(ex.Message,ex);
+            OnFatal(ex);
         }
 
         [WebMethod()]

@@ -149,7 +149,7 @@ namespace com.paralib.paraquick.qbwc
             //update message with non-Qb (application defined) error
             efMessage.ResponseDate = DateTime.Now;
             efMessage.StatusCode = "-1";
-            efMessage.StatusMessage = errorMessage;
+            efMessage.StatusMessage = $"Request Error [{errorMessage}]";
 
             TruncateMessage(efMessage);
 

@@ -10,16 +10,50 @@ namespace com.paralib.paraquick.qbwc
 {
     public abstract class QbWcService : QbWcServiceBase
     {
-        protected void Error(string message)
+        protected virtual void OnError(string errorMessage)
         {
-            Logger.Error(message);
+
         }
 
-        protected void Error(DbContext db, EfParaquickSession efSession, string message)
+        protected void Error(string errorMessage)
         {
-            Error(message);
-            ServiceUtils.SessionError(db, efSession, message);
+            Logger.Error(errorMessage);
+            OnError(errorMessage);
         }
+
+        protected virtual void OnSessionError(DbContext db, EfParaquickSession efSession, string errorMessage)
+        {
+
+        }
+
+        protected void SessionError(DbContext db, EfParaquickSession efSession, string errorMessage)
+        {
+            ServiceUtils.SessionError(db, efSession, errorMessage);
+            OnSessionError(db, efSession, errorMessage);
+        }
+
+        protected virtual void OnRequestError(DbContext db, EfParaquickSession efSession, EfParaquickMessage efMessage, string errorMessage)
+        {
+
+        }
+
+        protected void RequestError(DbContext db, EfParaquickSession efSession, EfParaquickMessage efMessage, string errorMessage)
+        {
+            ServiceUtils.RequestError(db, efMessage, errorMessage);
+            OnRequestError(db, efSession, efMessage, errorMessage);
+        }
+
+        protected virtual void OnResponseError(DbContext db, EfParaquickSession efSession, EfParaquickMessage efMessage, string errorMessage)
+        {
+
+        }
+
+        protected void ResponseError(DbContext db, EfParaquickSession efSession, EfParaquickMessage efMessage, string errorMessage)
+        {
+            //error message is already in messages table
+            OnResponseError(db, efSession, efMessage, errorMessage);
+        }
+
 
         protected override string OnAuthenticate(string username, string password, out AuthCodes authCode, out AuthOptions authOptions)
         {
@@ -94,7 +128,7 @@ namespace com.paralib.paraquick.qbwc
                     if (efSession != null)
                     {
                         //log this error
-                        Error(db, efSession, hResult.Format());
+                        SessionError(db, efSession, hResult.Format());
 
                         //ask the implementation if we should tell the WC to retry
                         string companyFilePath;
@@ -179,7 +213,7 @@ namespace com.paralib.paraquick.qbwc
                                     else
                                     {
                                         //"close" this request, don't send to WC
-                                        ServiceUtils.RequestError(db, efMessage, errorMessage);
+                                        RequestError(db, efSession, efMessage, errorMessage);
                                     }
 
                                 }
@@ -193,7 +227,7 @@ namespace com.paralib.paraquick.qbwc
                             else
                             {
                                 //something wrong with the message set in the database, log it
-                                Error(db, efSession, $"An error occurred when building the message set for session ({efSession.Id})");
+                                SessionError(db, efSession, $"An error occurred when building the message set for session ({efSession.Id})");
 
                                 //this is pretty bad, let's just close the session
                                 ServiceUtils.Close(db, efSession);
@@ -203,7 +237,7 @@ namespace com.paralib.paraquick.qbwc
                         else
                         {
                             //log error
-                            Error(db, efSession, $"Incorrect company file ({companyFilePath}) for company ({efSession.CompanyId})");
+                            SessionError(db, efSession, $"Incorrect company file ({companyFilePath}) for company ({efSession.CompanyId})");
                         }
                     }
 
@@ -264,13 +298,14 @@ namespace com.paralib.paraquick.qbwc
                                     if (rsMsg.statusCode != "0")
                                     {
                                         //TODO stop on errors?
+                                        ResponseError(db, efSession, efMessage, rsMsg.statusMessage);
                                     }
 
                                 }
                                 else
                                 {
                                     //TODO stop on errors?
-                                    Error(db, efSession, $"Can't find request ({rsMsg.requestID})");
+                                    SessionError(db, efSession, $"Can't find request ({rsMsg.requestID})");
                                 }
 
                             }
@@ -283,7 +318,7 @@ namespace com.paralib.paraquick.qbwc
                         }
                         else
                         {
-                            Error(db, efSession, $"COM Error {hResult.Format()}");
+                            SessionError(db, efSession, $"COM Error {hResult.Format()}");
                         }
                     }
 
